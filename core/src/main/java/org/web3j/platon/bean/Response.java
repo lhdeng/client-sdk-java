@@ -1,7 +1,5 @@
 package org.web3j.platon.bean;
 
-import java.util.List;
-
 public class Response {
     private int Code;
     private Object Ret;

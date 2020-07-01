@@ -28,7 +28,6 @@ public class ContractJsonParseTest {
                 + File.separator + inputFileName + ".json";
     }
 
-    @SuppressWarnings("SameParameterValue")
     static Contract parseContractJson(String baseDir,
             String contractName, String inputFileName)
             throws Exception {

@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.TempFileProvider;
-import org.web3j.codegen.WasmFunctionWrapperGenerator;
 import org.web3j.utils.Strings;
 
 /**

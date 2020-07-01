@@ -4,7 +4,6 @@ import java.math.BigInteger;
 
 import com.platon.sdk.utlis.Bech32;
 import com.platon.sdk.utlis.NetworkParameters;
-import org.bouncycastle.util.encoders.Hex;
 import org.web3j.utils.Numeric;
 
 public class WasmAddress {
@@ -16,7 +15,7 @@ public class WasmAddress {
 	public static final int LENGTH_IN_HEX = LENGTH >> 2;
 
 	public WasmAddress(byte[] value, long chainId) {
-		this(value,NetworkParameters.getHrp(chainId));
+		this(value, NetworkParameters.getHrp(chainId));
 	}
 
 	public WasmAddress(byte[] value, String hrp) {

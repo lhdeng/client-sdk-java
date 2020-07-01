@@ -9,22 +9,21 @@ import static org.junit.Assert.assertThat;
 
 public class CredentialsTest {
 
-    @Test
-    public void testCredentialsFromString() {
-        Credentials credentials = Credentials.create(SampleKeys.KEY_PAIR);
-        verify(credentials);
-    }
+	@Test
+	public void testCredentialsFromString() {
+		Credentials credentials = Credentials.create(SampleKeys.KEY_PAIR);
+		verify(credentials);
+	}
 
-    @Test
-    public void testCredentialsFromECKeyPair() {
-        Credentials credentials = Credentials.create(
-                SampleKeys.PRIVATE_KEY_STRING, SampleKeys.PUBLIC_KEY_STRING);
-        verify(credentials);
-    }
+	@Test
+	public void testCredentialsFromECKeyPair() {
+		Credentials credentials = Credentials.create(SampleKeys.PRIVATE_KEY_STRING, SampleKeys.PUBLIC_KEY_STRING);
+		verify(credentials);
+	}
 
-    private void verify(Credentials credentials) {
-        assertEquals(credentials.getAddress(NetworkParameters.MainNetParams),SampleKeys.BECH32_ADDRESS.getMainnet());
-        assertEquals(credentials.getAddress(NetworkParameters.TestNetParams),SampleKeys.BECH32_ADDRESS.getTestnet());
-        assertThat(credentials.getEcKeyPair(), is(SampleKeys.KEY_PAIR));
-    }
+	private void verify(Credentials credentials) {
+		assertEquals(credentials.getAddress(NetworkParameters.getMainNetHrp()), SampleKeys.BECH32_ADDRESS.getMainnet());
+		assertEquals(credentials.getAddress(NetworkParameters.getTestNetHrp()), SampleKeys.BECH32_ADDRESS.getTestnet());
+		assertThat(credentials.getEcKeyPair(), is(SampleKeys.KEY_PAIR));
+	}
 }

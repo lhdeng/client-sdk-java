@@ -144,7 +144,8 @@ public class JSONUtil {
      * @param json
      * @return
      */
-    public static Map<String, Object> jsonToMap(String json) {
+    @SuppressWarnings("unchecked")
+	public static Map<String, Object> jsonToMap(String json) {
         Map<String, Object> result = new HashMap<>();
         try {
             result = (Map<String, Object>) JSON.parse(json);

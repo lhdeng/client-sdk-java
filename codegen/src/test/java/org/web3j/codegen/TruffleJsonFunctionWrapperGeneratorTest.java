@@ -62,7 +62,6 @@ public class TruffleJsonFunctionWrapperGeneratorTest extends TempFileProvider {
         testCodeGenerationSolidtyTypes("MetaCoin", "MetaCoin");
     }
 
-    @SuppressWarnings("SameParameterValue")
     private void testCodeGenerationJvmTypes(
             String contractName, String inputFileName) throws Exception {
 
@@ -71,7 +70,6 @@ public class TruffleJsonFunctionWrapperGeneratorTest extends TempFileProvider {
 
     }
 
-    @SuppressWarnings("SameParameterValue")
     private void testCodeGenerationSolidtyTypes(
             String contractName, String inputFileName) throws Exception {
 
