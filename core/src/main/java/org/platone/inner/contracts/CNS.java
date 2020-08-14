@@ -109,7 +109,7 @@ public class CNS extends Contract {
 		return new CNS(web3j, credentials, contractGasProvider, chainId);
 	}
 
-	public static CNS load(String contractAddress, Web3j web3j, TransactionManager transactionManager,
+	public static CNS load(Web3j web3j, TransactionManager transactionManager,
 			GasProvider contractGasProvider, Long chainId) {
 		return new CNS(web3j, transactionManager, contractGasProvider, chainId);
 	}
