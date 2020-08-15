@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.web3j.abi.WasmEventDecoder;
 import org.web3j.abi.WasmEventEncoder;
 import org.web3j.abi.WasmEventValues;
 import org.web3j.abi.WasmFunctionEncoder;
@@ -261,11 +262,11 @@ public abstract class WasmContract extends ManagedTransaction {
 				String topicData = topics.get(i + 1);
 				WasmEventParameter wasmEventParameter = indexedParameters.get(i);
 				Class<?> clazz = wasmEventParameter.getType();
-				if (Uint.class.isAssignableFrom(clazz) || Int.class.isAssignableFrom(clazz)) {
+
+				if (Uint.class.isAssignableFrom(clazz)
+						|| Int.class.isAssignableFrom(clazz)) {
 					try {
-						byte[] data = Numeric.hexStringToByteArray(topicData);
-						String value = new BigInteger(data).toString();
-						indexedValues.add(value);
+						indexedValues.add(WasmEventDecoder.decodeIndexParameter(topicData, clazz).toString());
 					} catch (Exception e) {
 						indexedValues.add(topicData);
 					}

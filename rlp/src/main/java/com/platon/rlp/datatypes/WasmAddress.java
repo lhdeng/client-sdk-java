@@ -1,6 +1,7 @@
 package com.platon.rlp.datatypes;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 import com.platon.sdk.utlis.Bech32;
 import com.platon.sdk.utlis.NetworkParameters;
@@ -13,6 +14,10 @@ public class WasmAddress {
 
 	public static final int LENGTH = 160;
 	public static final int LENGTH_IN_HEX = LENGTH >> 2;
+
+	public WasmAddress(byte[] value) {
+		this(value,NetworkParameters.getHrp());
+	}
 
 	public WasmAddress(byte[] value, long chainId) {
 		this(value, NetworkParameters.getHrp(chainId));
@@ -28,6 +33,10 @@ public class WasmAddress {
 		this.value = Numeric.hexStringToByteArray(Bech32.addressDecodeHex(bechValue));
 		this.bigIntValue = Numeric.toBigInt(value);
 		this.address = bechValue;
+	}
+
+	public WasmAddress(BigInteger value) {
+		this(value.toByteArray());
 	}
 
 	public byte[] getValue() {
@@ -47,22 +56,17 @@ public class WasmAddress {
 		return address;
 	}
 
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 		WasmAddress address = (WasmAddress) o;
-
-		return value != null ? value.equals(address.value) : address.value == null;
+		return Objects.equals(bigIntValue, address.bigIntValue);
 	}
 
 	@Override
 	public int hashCode() {
-		return value != null ? value.hashCode() : 0;
+		return Objects.hash(bigIntValue);
 	}
 }
