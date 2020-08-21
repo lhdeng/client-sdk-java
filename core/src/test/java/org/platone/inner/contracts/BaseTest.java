@@ -9,8 +9,6 @@ import java.security.NoSuchProviderException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -21,20 +19,23 @@ import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.utils.Numeric;
 
-public class BaseTest {
-	Logger logger = LoggerFactory.getLogger(this.getClass());
+import com.platon.sdk.utlis.Bech32;
 
-	static final String URL = "http://10.1.1.9:6789";
+public class BaseTest {
+	static final String URL = "http://127.0.0.1:6789";
 	static final long CHAIN_ID = 200L;
 
-	static final String CREATOR_PRIVATEKEY = "983759fe9aac227c535b21d78792d79c2f399b1d43db46ae6d50a33875301557";
-	static final String CREATOR_ADDRESS = "0x72390064b9399fdaf1e471973e20bd7da8ac9dc6";
+	static final String CREATOR_PRIVATEKEY = "35e8b598593710447fe5315113516a369ed7ac4d6c41ee0bfb8f5708bff1787c";
+	static final String CREATOR_ADDRESS = "lax1kwu5qpqjrhdkln42ayzrnw3rg3nqj3xnkn4wmd";
 
-	static final String PRIVATEKEY_1 = "2ef19049c9e5763491bf81989e2a0e03be3c5b51fa5ac68656fd64f05555e9d5";
+	static final String USER_PRIVATEKEY_1 = "beda9d94c55b2993ed00a12b69b8d704407e47c5e7e995680975153b06e63f8c";
+	static final String USER_ADDRESS_1 = "lax13jwu9rppzk6ll3hqaykgpxeav4fu6su348uztx";
 
-	static final String PRIVATEKEY_2 = "808522c84e7dee90169d642b4e5413ff66e567c652bdf43ca684190fde4ffb07";
+	static final String USER_PRIVATEKEY_2 = "f8dbdfaa91eef6bf78d6e3fcc9363905e840fb8fd10a267e1df41ea749e46b23";
+	static final String USER_ADDRESS_2 = "lax1xyg2x9z5zwsayu8zqlv07yrg6mn77w5v456vk0";
 
-	static final String PRIVATEKEY_3 = "976d1d4809dcdcb0e0b3895bfd79332d3b19b80df448a74b9a0b27f2b93a81b1";
+	static final String USER_PRIVATEKEY_3 = "c7f410c1876cf6905759a6ed8632ce791e1429676226057026994b4736db97cc";
+	static final String USER_ADDRESS_3 = "lax18smm94mc75jk5lsacjkzwu3339hyd078e5a0x9";
 
 	Web3j web3j;
 
@@ -61,8 +62,9 @@ public class BaseTest {
 			ECKeyPair keyPair = Keys.createEcKeyPair();
 			String address = Keys.getAddress(keyPair.getPublicKey());
 
-			logger.info("address >>>> {}", address);
-			logger.info("privateKey >>> {}", Numeric.toHexStringNoPrefix(keyPair.getPrivateKey()));
+			System.err.println("Address >>>> " + address);
+			System.err.println("Bech32 Address >>>> " + Bech32.addressEncode("lax", address));
+			System.err.println("PrivateKey >>> " + Numeric.toHexStringNoPrefix(keyPair.getPrivateKey()));
 
 		} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException e) {
 			e.printStackTrace();
