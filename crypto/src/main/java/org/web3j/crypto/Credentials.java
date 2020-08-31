@@ -4,48 +4,31 @@ import com.platon.sdk.utlis.Bech32;
 import com.platon.sdk.utlis.NetworkParameters;
 import org.web3j.utils.Numeric;
 
-import java.util.Objects;
-
 /**
  * Credentials wrapper.
  */
 public class Credentials {
 
 	private final ECKeyPair ecKeyPair;
-	private final String latAddress;
-	private final String laxAddress;
+	private String address;
 
-	private Credentials(ECKeyPair ecKeyPair, String latAddress, String laxAddress) {
+	private Credentials(ECKeyPair ecKeyPair, String address) {
 		this.ecKeyPair = ecKeyPair;
-		this.latAddress = latAddress;
-		this.laxAddress = laxAddress;
+		this.address = address;
 	}
 
 	public ECKeyPair getEcKeyPair() {
 		return ecKeyPair;
 	}
 
-	public String getAddress(String hrp) {
-		if (NetworkParameters.Hrp.LAT.getHrp().equals(hrp)) {
-			return latAddress;
-		} else {
-			return laxAddress;
-		}
-	}
-
-	public String getAddress(long chainId) {
-		if (NetworkParameters.MAIN_NET_CHAIN_ID == chainId) {
-			return latAddress;
-		} else {
-			return laxAddress;
-		}
+	public String getAddress() {
+		return this.address;
 	}
 
 	public static Credentials create(ECKeyPair ecKeyPair) {
-		String address = Numeric.prependHexPrefix(Keys.getAddress(ecKeyPair));
-		String latAddress = Bech32.addressEncode(NetworkParameters.Hrp.LAT.getHrp(), address);
-		String laxAddress = Bech32.addressEncode(NetworkParameters.Hrp.LAX.getHrp(), address);
-		return new Credentials(ecKeyPair, latAddress, laxAddress);
+		String hexAddress = Numeric.prependHexPrefix(Keys.getAddress(ecKeyPair));
+		String bech32Address = Bech32.addressEncode(NetworkParameters.getHrp(), hexAddress);
+		return new Credentials(ecKeyPair, bech32Address);
 	}
 
 	public static Credentials create(String privateKey, String publicKey) {
@@ -56,19 +39,36 @@ public class Credentials {
 		return create(ECKeyPair.create(Numeric.toBigInt(privateKey)));
 	}
 
+	public static Credentials createSm2(String privateKey, String publicKey) {
+		return create(new ECKeyPair(Numeric.toBigInt(privateKey), Numeric.toBigInt(publicKey), ECAlgorithm.SM2));
+	}
+
+	public static Credentials createSm2(String privateKey) {
+		return create(ECKeyPair.createSm2(Numeric.toBigInt(privateKey)));
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
+
 		Credentials that = (Credentials) o;
-		return Objects.equals(ecKeyPair, that.ecKeyPair) && Objects.equals(latAddress, that.latAddress)
-				&& Objects.equals(laxAddress, that.laxAddress);
+
+		if (ecKeyPair != null ? !ecKeyPair.equals(that.ecKeyPair) : that.ecKeyPair != null) {
+			return false;
+		}
+
+		return address != null ? address.equals(that.address) : that.address == null;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ecKeyPair, latAddress, laxAddress);
+		int result = ecKeyPair != null ? ecKeyPair.hashCode() : 0;
+		result = 31 * result + (address != null ? address.hashCode() : 0);
+		return result;
 	}
 }

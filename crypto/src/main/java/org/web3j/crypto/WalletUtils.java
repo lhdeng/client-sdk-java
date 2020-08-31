@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.platon.sdk.utlis.Bech32;
 import org.bouncycastle.util.encoders.Hex;
-import org.web3j.utils.Files;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
@@ -14,11 +13,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.web3j.crypto.Hash.sha256;
 import static org.web3j.crypto.Keys.ADDRESS_LENGTH_IN_HEX;
@@ -29,247 +23,457 @@ import static org.web3j.crypto.Keys.PRIVATE_KEY_LENGTH_IN_HEX;
  */
 public class WalletUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom();
+	private static final ObjectMapper objectMapper = new ObjectMapper();
+	private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom();
 
-    static {
-        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
+	static {
+		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
 
-    public static String generateFullNewWalletFile(String password, File destinationDirectory)
-            throws NoSuchAlgorithmException, NoSuchProviderException,
-            InvalidAlgorithmParameterException, CipherException, IOException {
+	/**
+	 * Create a wallet using Secp256k1 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return  the wallet file name
+	 * 
+	 * @throws CipherException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws IOException
+	 */
+	public static String generateNewWalletFile(String password, File destinationDirectory) throws CipherException,
+			InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
 
-        return generateNewWalletFile(password, destinationDirectory, true);
-    }
+		return generateFullNewWalletFile(password, destinationDirectory);
+	}
 
-    public static String generateLightNewWalletFile(String password, File destinationDirectory)
-            throws NoSuchAlgorithmException, NoSuchProviderException,
-            InvalidAlgorithmParameterException, CipherException, IOException {
+	/**
+	 * Create a full wallet using Secp256k1 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return the wallet file name
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generateFullNewWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-        return generateNewWalletFile(password, destinationDirectory, false);
-    }
+		return generateNewWalletFile(password, destinationDirectory, true);
+	}
 
-    /**
-     * create a platON standard wallet
-     *
-     * @param password
-     * @param destinationDirectory
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchProviderException
-     * @throws InvalidAlgorithmParameterException
-     * @throws CipherException
-     * @throws IOException
-     */
-    public static String generatePlatONWalletFile(String password, File destinationDirectory)
-            throws NoSuchAlgorithmException, NoSuchProviderException,
-            InvalidAlgorithmParameterException, CipherException, IOException {
-        ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+	/**
+	 * Create a light wallet using Secp256k1 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return the wallet file name
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generateLightNewWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-        String fileName  = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
-        return fileName;
-    }
+		return generateNewWalletFile(password, destinationDirectory, false);
+	}
 
-    /**
-     * create a platON standard Bip39 wallet
-     *
-     * @param password
-     * @param destinationDirectory
-     * @return
-     * @throws CipherException
-     * @throws IOException
-     */
-    public static Bip39Wallet generatePlatONBip39Wallet(String password, File destinationDirectory)
-            throws CipherException, IOException {
-        byte[] initialEntropy = new byte[16];
-        secureRandom.nextBytes(initialEntropy);
+	/**
+	 * 
+	 * Create a wallet using Secp256k1 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @param useFullScrypt true/false
+	 * @return the wallet file name
+	 * 
+	 * @throws CipherException
+	 * @throws IOException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 */
+	public static String generateNewWalletFile(String password, File destinationDirectory, boolean useFullScrypt)
+			throws CipherException, IOException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
+			NoSuchProviderException {
 
-        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
-        ECKeyPair ecKeyPair = ECKeyPair.create(sha256(seed));
+		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+		return generateWalletFile(password, ecKeyPair, destinationDirectory, useFullScrypt);
+	}
 
-        String fileName  = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+	/**
+	 * Create a wallet using sm2 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return the wallet file name
+	 * 
+	 * @throws CipherException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws IOException
+	 */
+	public static String generateSm2NewWalletFile(String password, File destinationDirectory) throws CipherException,
+			InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
 
-        return new Bip39Wallet(fileName, mnemonic);
-    }
+		return generateSm2FullNewWalletFile(password, destinationDirectory);
+	}
 
-    /**
-     * Create platON standard wallet with ecKeyPair
-     *
-     * @param password
-     * @param ecKeyPair
-     * @param destinationDirectory
-     * @return
-     * @throws CipherException
-     * @throws IOException
-     */
-    public static String generatePlatONWalletFile(String password, ECKeyPair ecKeyPair, File destinationDirectory)
-            throws CipherException, IOException {
+	/**
+	 * Create a full wallet using sm2 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return the wallet file name
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generateSm2FullNewWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-        WalletFile walletFile = Wallet.createPlatON(password,ecKeyPair);
+		return generateSm2NewWalletFile(password, destinationDirectory, true);
+	}
 
-        String fileName = getWalletFileName(walletFile);
-        File destination = new File(destinationDirectory, fileName);
+	/**
+	 * Create a light wallet using sm2 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @return the wallet file name
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generateSm2LightNewWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-        objectMapper.writeValue(destination, walletFile);
+		return generateSm2NewWalletFile(password, destinationDirectory, false);
+	}
 
-        return fileName;
-    }
+	/**
+	 * 
+	 * Create a wallet using sm2 algorithm
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory the wallet file storage path
+	 * @param useFullScrypt true/false
+	 * @return the wallet file name
+	 * 
+	 * @throws CipherException
+	 * @throws IOException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 */
+	public static String generateSm2NewWalletFile(String password, File destinationDirectory, boolean useFullScrypt)
+			throws CipherException, IOException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
+			NoSuchProviderException {
 
-    public static String generateNewWalletFile(String password, File destinationDirectory)
-            throws CipherException, InvalidAlgorithmParameterException,
-            NoSuchAlgorithmException, NoSuchProviderException, IOException {
-        return generateFullNewWalletFile(password, destinationDirectory);
-    }
+		ECKeyPair ecKeyPair = Keys.createSm2EcKeyPair();
+		return generateWalletFile(password, ecKeyPair, destinationDirectory, useFullScrypt);
+	}
 
-    public static String generateNewWalletFile(
-            String password, File destinationDirectory, boolean useFullScrypt)
-            throws CipherException, IOException, InvalidAlgorithmParameterException,
-            NoSuchAlgorithmException, NoSuchProviderException {
+	/**
+	 * Generates a BIP-39 compatible Ethereum wallet using Secp256k1 algorithm. 
+	 * The private key for the wallet can be calculated using following algorithm:
+	 * <pre>
+	 *     Key = SHA-256(BIP_39_SEED(mnemonic, password))
+	 * </pre>
+	 *
+	 * @param password Will be used for both wallet encryption and passphrase for BIP-39 seed
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return A BIP-39 compatible Ethereum wallet
+	 * @throws CipherException if the underlying cipher is not available
+	 * @throws IOException if the destination cannot be written to
+	 */
+	public static Bip39Wallet generateBip39Wallet(String password, File destinationDirectory)
+			throws CipherException, IOException {
+		byte[] initialEntropy = new byte[16];
+		secureRandom.nextBytes(initialEntropy);
 
-        ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-        return generateWalletFile(password, ecKeyPair, destinationDirectory, useFullScrypt);
-    }
+		String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
 
-    public static String generateWalletFile(
-            String password, ECKeyPair ecKeyPair, File destinationDirectory, boolean useFullScrypt)
-            throws CipherException, IOException {
+		String walletFile = generateWalletFile(password, privateKey, destinationDirectory, false);
 
-        WalletFile walletFile;
-        if (useFullScrypt) {
-            walletFile = Wallet.createStandard(password, ecKeyPair);
-        } else {
-            walletFile = Wallet.createLight(password, ecKeyPair);
-        }
+		return new Bip39Wallet(walletFile, mnemonic);
+	}
 
-        String fileName = getWalletFileName(walletFile);
-        File destination = new File(destinationDirectory, fileName);
+	/**
+	 * Generates a BIP-39 compatible Ethereum wallet using sm2 algorithm.
+	 * The private key for the wallet can be calculated using following algorithm:
+	 * <pre>
+	 *     Key = SHA-256(BIP_39_SEED(mnemonic, password))
+	 * </pre>
+	 * @param password Will be used for both wallet encryption and passphrase for BIP-39 seed
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return A BIP-39 compatible Ethereum wallet
+	 * @throws CipherException if the underlying cipher is not available
+	 * @throws IOException IOException if the destination cannot be written to
+	 */
+	public static Bip39Wallet generateSm2Bip39Wallet(String password, File destinationDirectory)
+			throws CipherException, IOException {
+		byte[] initialEntropy = new byte[16];
+		secureRandom.nextBytes(initialEntropy);
 
-        objectMapper.writeValue(destination, walletFile);
+		String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		ECKeyPair privateKey = ECKeyPair.createSm2(sha256(seed));
 
-        return fileName;
-    }
+		String walletFile = generateWalletFile(password, privateKey, destinationDirectory, false);
 
-    /**
-     * Generates a BIP-39 compatible Ethereum wallet. The private key for the wallet can
-     * be calculated using following algorithm:
-     * <pre>
-     *     Key = SHA-256(BIP_39_SEED(mnemonic, password))
-     * </pre>
-     *
-     * @param password Will be used for both wallet encryption and passphrase for BIP-39 seed
-     * @param destinationDirectory The directory containing the wallet
-     * @return A BIP-39 compatible Ethereum wallet
-     * @throws CipherException if the underlying cipher is not available
-     * @throws IOException if the destination cannot be written to
-     */
-    public static Bip39Wallet generateBip39Wallet(String password, File destinationDirectory)
-            throws CipherException, IOException {
-        byte[] initialEntropy = new byte[16];
-        secureRandom.nextBytes(initialEntropy);
+		return new Bip39Wallet(walletFile, mnemonic);
+	}
 
-        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
-        ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
+	public static String generateWalletFile(String password, ECKeyPair ecKeyPair, File destinationDirectory,
+			boolean useFullScrypt) throws CipherException, IOException {
 
-        String walletFile = generateWalletFile(password, privateKey, destinationDirectory, false);
+		WalletFile walletFile;
+		if (useFullScrypt) {
+			walletFile = Wallet.createStandard(password, ecKeyPair);
+		} else {
+			walletFile = Wallet.createLight(password, ecKeyPair);
+		}
 
-        return new Bip39Wallet(walletFile, mnemonic);
-    }
+		// String fileName = getWalletFileName(walletFile);
+		String fileName = getWalletFileName(walletFile, ecKeyPair.getAlgorithm());
+		File destination = new File(destinationDirectory, fileName);
 
-    public static Credentials loadCredentials(String password, String source)
-            throws IOException, CipherException {
-        return loadCredentials(password, new File(source));
-    }
+		objectMapper.writeValue(destination, walletFile);
 
-    private static final Pattern OLD_ADDRESS_PATTERN = Pattern.compile(".*address\":[\\s]*\".*");
-    public static Credentials loadCredentials(String password, File source)
-            throws IOException, CipherException {
-        // 统一把source文件中的address值替换为“{}”，兼容新旧格式钱包文件的加载
-        String fileContent = Files.readString(source);
-        WalletFile walletFile;
-        Matcher matcher = OLD_ADDRESS_PATTERN.matcher(fileContent);
-        if(!matcher.find()){
-            walletFile = objectMapper.readValue(fileContent, WalletFile.class);
-        }else {
-            String fileContent2 = fileContent.replaceFirst("address\":.*?,","address\":{},");
-            walletFile = objectMapper.readValue(fileContent2, WalletFile.class);
-        }
-        return Credentials.create(Wallet.decrypt(password, walletFile));
-    }
+		return fileName;
+	}
 
-    public static Credentials loadBip39Credentials(String password, String mnemonic) {
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
-        return Credentials.create(ECKeyPair.create(sha256(seed)));
-    }
+	/**
+	 * create a platON standard wallet using Secp256k1 algorithm. 
+	 *
+	 * @param password the wallet password
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return the file name of wallet
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generatePlatONWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-    private static String getWalletFileName(WalletFile walletFile) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern(
-                "'UTC--'yyyy-MM-dd'T'HH-mm-ss.nVV'--'");
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+		return generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+	}
 
-        return now.format(format) + walletFile.getAddress().getMainnet() + ".json";
-    }
+	/**
+	 * create a platON standard wallet using sm2 algorithm. 
+	 * 
+	 * @param password the wallet password
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return the file name of wallet
+	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generateSm2PlatONWalletFile(String password, File destinationDirectory)
+			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
+			CipherException, IOException {
 
-    public static String getDefaultKeyDirectory() {
-        return getDefaultKeyDirectory(System.getProperty("os.name"));
-    }
+		ECKeyPair ecKeyPair = Keys.createSm2EcKeyPair();
+		return generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+	}
 
-    static String getDefaultKeyDirectory(String osName1) {
-        String osName = osName1.toLowerCase();
+	/**
+	 * create a platON standard Bip39 wallet using Secp256k1 algorithm. 
+	 *
+	 * @param password the wallet password
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return  A BIP-39 compatible PlatON wallet
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static Bip39Wallet generatePlatONBip39Wallet(String password, File destinationDirectory)
+			throws CipherException, IOException {
+		byte[] initialEntropy = new byte[16];
+		secureRandom.nextBytes(initialEntropy);
 
-        if (osName.startsWith("mac")) {
-            return String.format(
-                    "%s%sLibrary%sEthereum", System.getProperty("user.home"), File.separator,
-                    File.separator);
-        } else if (osName.startsWith("win")) {
-            return String.format("%s%sEthereum", System.getenv("APPDATA"), File.separator);
-        } else {
-            return String.format("%s%s.ethereum", System.getProperty("user.home"), File.separator);
-        }
-    }
+		String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		ECKeyPair ecKeyPair = ECKeyPair.create(sha256(seed));
 
-    public static String getTestnetKeyDirectory() {
-        return String.format(
-                "%s%stestnet%skeystore", getDefaultKeyDirectory(), File.separator, File.separator);
-    }
+		String fileName = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
 
-    public static String getMainnetKeyDirectory() {
-        return String.format("%s%skeystore", getDefaultKeyDirectory(), File.separator);
-    }
-    
-    /**
-     * Get keystore destination directory for a Rinkeby network.
-     * @return a String containing destination directory
-     */
-    public static String getRinkebyKeyDirectory() {
-        return String.format(
-                "%s%srinkeby%skeystore", getDefaultKeyDirectory(), File.separator, File.separator);
-    }
+		return new Bip39Wallet(fileName, mnemonic);
+	}
 
-    public static boolean isValidPrivateKey(String privateKey) {
-        String cleanPrivateKey = Numeric.cleanHexPrefix(privateKey);
-        return cleanPrivateKey.length() == PRIVATE_KEY_LENGTH_IN_HEX;
-    }
+	/**
+	 * create a platON standard Bip39 wallet using sm2 algorithm. 
+	 *
+	 * @param password the wallet password
+	 * @param destinationDirectory The directory containing the wallet
+	 * @return  A BIP-39 compatible PlatON wallet
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static Bip39Wallet generateSm2PlatONBip39Wallet(String password, File destinationDirectory)
+			throws CipherException, IOException {
+		byte[] initialEntropy = new byte[16];
+		secureRandom.nextBytes(initialEntropy);
 
-    public static boolean isValidAddress(String input) {
-        String cleanInput;
-        try{
-            byte [] bytes = Bech32.addressDecode(input);
-            String hexAddress = Hex.toHexString(bytes);
-            cleanInput = Numeric.cleanHexPrefix(hexAddress);
-        }catch (Exception e){
-            return false;
-        }
+		String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		ECKeyPair ecKeyPair = ECKeyPair.createSm2(sha256(seed));
 
-        try {
-            Numeric.toBigIntNoPrefix(cleanInput);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+		String fileName = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
 
-        return cleanInput.length() == ADDRESS_LENGTH_IN_HEX;
-    }
+		return new Bip39Wallet(fileName, mnemonic);
+	}
+
+	/**
+	 * Create platON standard wallet with ecKeyPair
+	 *
+	 * @param password
+	 * @param ecKeyPair
+	 * @param destinationDirectory
+	 * @return
+	 * @throws CipherException
+	 * @throws IOException
+	 */
+	public static String generatePlatONWalletFile(String password, ECKeyPair ecKeyPair, File destinationDirectory)
+			throws CipherException, IOException {
+
+		WalletFile walletFile = Wallet.createPlatON(password, ecKeyPair);
+
+		String fileName = getWalletFileName(walletFile, ecKeyPair.getAlgorithm());
+		File destination = new File(destinationDirectory, fileName);
+
+		objectMapper.writeValue(destination, walletFile);
+
+		return fileName;
+	}
+
+	public static Credentials loadCredentials(String password, String source) throws IOException, CipherException {
+		return loadCredentials(password, new File(source));
+	}
+
+	public static Credentials loadCredentials(String password, File source) throws IOException, CipherException {
+		WalletFile walletFile = objectMapper.readValue(source, WalletFile.class);
+		return Credentials.create(Wallet.decrypt(password, walletFile));
+	}
+
+	public static Credentials loadSm2Credentials(String password, String source) throws IOException, CipherException {
+		return loadSm2Credentials(password, new File(source));
+	}
+
+	public static Credentials loadSm2Credentials(String password, File source) throws IOException, CipherException {
+		WalletFile walletFile = objectMapper.readValue(source, WalletFile.class);
+		return Credentials.create(Wallet.decryptSm2(password, walletFile));
+	}
+
+	public static Credentials loadBip39Credentials(String password, String mnemonic) {
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		return Credentials.create(ECKeyPair.create(sha256(seed)));
+	}
+
+	public static Credentials loadSm2Bip39Credentials(String password, String mnemonic) {
+		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+		return Credentials.create(ECKeyPair.createSm2(sha256(seed)));
+	}
+
+	/*
+	 * private static String getWalletFileName(WalletFile walletFile) {
+	 * DateTimeFormatter format =
+	 * DateTimeFormatter.ofPattern("'UTC--'yyyy-MM-dd'T'HH-mm-ss.nVV'--'");
+	 * ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+	 * 
+	 * return now.format(format) + walletFile.getAddress() + ".json"; }
+	 */
+
+	private static String getWalletFileName(WalletFile walletFile, ECAlgorithm algorithm) {
+		return walletFile.getAddress() + "-" + algorithm.toString() + ".json";
+	}
+
+	public static String getDefaultKeyDirectory() {
+		return getDefaultKeyDirectory(System.getProperty("os.name"));
+	}
+
+	static String getDefaultKeyDirectory(String osName1) {
+		String osName = osName1.toLowerCase();
+
+		if (osName.startsWith("mac")) {
+			return String.format("%s%sLibrary%sEthereum", System.getProperty("user.home"), File.separator,
+					File.separator);
+		} else if (osName.startsWith("win")) {
+			return String.format("%s%sEthereum", System.getenv("APPDATA"), File.separator);
+		} else {
+			return String.format("%s%s.ethereum", System.getProperty("user.home"), File.separator);
+		}
+	}
+
+	public static String getTestnetKeyDirectory() {
+		return String.format("%s%stestnet%skeystore", getDefaultKeyDirectory(), File.separator, File.separator);
+	}
+
+	public static String getMainnetKeyDirectory() {
+		return String.format("%s%skeystore", getDefaultKeyDirectory(), File.separator);
+	}
+
+	/**
+	 * Get keystore destination directory for a Rinkeby network.
+	 * @return a String containing destination directory
+	 */
+	public static String getRinkebyKeyDirectory() {
+		return String.format("%s%srinkeby%skeystore", getDefaultKeyDirectory(), File.separator, File.separator);
+	}
+
+	public static boolean isValidPrivateKey(String privateKey) {
+		String cleanPrivateKey = Numeric.cleanHexPrefix(privateKey);
+		return cleanPrivateKey.length() == PRIVATE_KEY_LENGTH_IN_HEX;
+	}
+
+	public static boolean isValidAddress(String input) {
+		String cleanInput;
+		try {
+			byte[] bytes = Bech32.addressDecode(input);
+			String hexAddress = Hex.toHexString(bytes);
+			cleanInput = Numeric.cleanHexPrefix(hexAddress);
+		} catch (Exception e) {
+			return false;
+		}
+
+		try {
+			Numeric.toBigIntNoPrefix(cleanInput);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		return cleanInput.length() == ADDRESS_LENGTH_IN_HEX;
+	}
+
 }

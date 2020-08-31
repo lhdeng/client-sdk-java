@@ -23,14 +23,16 @@ public class UserManagerTest extends BaseTest {
 
 	public void parseRecepit(TransactionReceipt receipt) {
 		String data = receipt.getLogs().get(0).getData();
-		BigInteger code = ParseUtils.parseResponseData(data, CHAIN_ID).getValue();
+		BigInteger code = ParseUtils.parseResponseData(data).getValue();
 		System.err.println("code >>> " + code.intValue());
 		System.err.println("msg >>> " + ErrorCodeEnum.getByCode(code.intValue()).getMsg());
 	}
 
 	@Test
 	public void registerTest() throws Exception {
-		Credentials credentials = Credentials.create(USER_PRIVATEKEY_1);
+		//Credentials credentials = Credentials.create(USER_PRIVATEKEY_1);
+		Credentials credentials = Credentials.createSm2(SM2_USER_PRIVATEKEY_1);
+		System.err.println(credentials.getAddress());
 		TransactionManager tm = new RawTransactionManager(web3j, credentials, CHAIN_ID);
 		UserManager userManager = UserManager.load(web3j, tm, contractGasProvider, CHAIN_ID);
 		String name = "Oliver";
@@ -47,9 +49,10 @@ public class UserManagerTest extends BaseTest {
 
 	@Test
 	public void auditTest() throws Exception {
+		creatorCredentials = Credentials.createSm2(SM2_CREATOR_PRIVATEKEY);
 		TransactionManager tm = new RawTransactionManager(web3j, creatorCredentials, CHAIN_ID);
 		UserManager userManager = UserManager.load(web3j, tm, contractGasProvider, CHAIN_ID);
-		String addr = USER_ADDRESS_1;
+		String addr = SM2_USER_ADDRESS_1;
 		TransactionReceipt receipt = userManager.Audit(addr, BigInteger.valueOf(AuditStatusEnum.Passed.getStatus()), "").send();
 		parseRecepit(receipt);
 	}
@@ -160,7 +163,7 @@ public class UserManagerTest extends BaseTest {
 	public void getByNameTest() throws Exception {
 		TransactionManager tm = new RawTransactionManager(web3j, creatorCredentials, CHAIN_ID);
 		UserManager userManager = UserManager.load(web3j, tm, contractGasProvider, CHAIN_ID);
-		String name = "";
+		String name = "ChainCreator";
 		String result = userManager.GetByName(name).send();
 		System.err.println("getByName result >>> " + result);
 	}

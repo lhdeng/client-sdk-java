@@ -17,11 +17,12 @@ import org.web3j.utils.Numeric;
  * <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI">here</a>.
  * </p>
  */
+@SuppressWarnings("rawtypes")
 public class FunctionEncoder {
 
     private FunctionEncoder() { }
 
-    public static String encode(Function function) {
+	public static String encode(Function function) {
         List<Type> parameters = function.getInputParameters();
 
         String methodSignature = buildMethodSignature(function.getName(), parameters);

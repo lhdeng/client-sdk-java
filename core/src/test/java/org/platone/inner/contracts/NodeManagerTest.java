@@ -19,7 +19,7 @@ public class NodeManagerTest extends BaseTest {
 
 	public void parseRecepit(TransactionReceipt receipt) {
 		String data = receipt.getLogs().get(0).getData();
-		BigInteger code = ParseUtils.parseResponseData(data, CHAIN_ID).getValue();
+		BigInteger code = ParseUtils.parseResponseData(data).getValue();
 		System.err.println("code >>> " + code.intValue());
 		System.err.println("msg >>> " + ErrorCodeEnum.getByCode(code.intValue()).getMsg());
 	}

@@ -55,8 +55,8 @@ public interface RLPElement {
 
 	boolean asBoolean();
 
-	default <T> T as(Class<T> clazz, long chainId) {
-		return RLPCodec.decode(this, clazz, chainId);
+	default <T> T as(Class<T> clazz) {
+		return RLPCodec.decode(this, clazz);
 	}
 
 	static RLPElement fromEncoded(byte[] data) {

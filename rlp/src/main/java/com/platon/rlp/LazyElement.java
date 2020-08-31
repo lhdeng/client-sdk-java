@@ -107,9 +107,9 @@ public class LazyElement implements RLPElement {
 	}
 
 	@Override
-	public <T> T as(Class<T> clazz, long chainId) {
+	public <T> T as(Class<T> clazz) {
 		parse();
-		return delegate.as(clazz, chainId);
+		return delegate.as(clazz);
 	}
 
 	@Override

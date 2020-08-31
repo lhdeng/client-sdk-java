@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECAlgorithm;
 import org.web3j.crypto.Hash;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
@@ -15,6 +16,8 @@ import org.web3j.tx.exceptions.TxHashMismatchException;
 import org.web3j.tx.response.TransactionReceiptProcessor;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.TxHashVerifier;
+
+import com.platon.sm.SM3Utils;
 
 /**
  * TransactionManager implementation using Ethereum wallet file to create and sign transactions
@@ -33,7 +36,7 @@ public class RawTransactionManager extends TransactionManager {
     protected TxHashVerifier txHashVerifier = new TxHashVerifier();
 
     public RawTransactionManager(Web3j web3j, Credentials credentials, long chainId) {
-        super(web3j, credentials.getAddress(chainId));
+        super(web3j, credentials.getAddress());
 
         this.web3j = web3j;
         this.credentials = credentials;
@@ -42,7 +45,7 @@ public class RawTransactionManager extends TransactionManager {
     }
 
     public RawTransactionManager(Web3j web3j, Credentials credentials, long chainId, TransactionReceiptProcessor transactionReceiptProcessor) {
-        super(transactionReceiptProcessor, credentials.getAddress(chainId));
+        super(transactionReceiptProcessor, credentials.getAddress());
 
         this.web3j = web3j;
         this.credentials = credentials;
@@ -51,7 +54,7 @@ public class RawTransactionManager extends TransactionManager {
     }
 
     public RawTransactionManager(Web3j web3j, Credentials credentials, long chainId, int attempts, long sleepDuration) {
-        super(web3j, attempts, sleepDuration, credentials.getAddress(chainId));
+        super(web3j, attempts, sleepDuration, credentials.getAddress());
 
         this.web3j = web3j;
         this.credentials = credentials;
@@ -61,11 +64,11 @@ public class RawTransactionManager extends TransactionManager {
 
     protected BigInteger getNonce() throws IOException {
         PlatonGetTransactionCount ethGetTransactionCount = web3j.platonGetTransactionCount(
-                credentials.getAddress(chainId), DefaultBlockParameterName.PENDING).send();
+                credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
 
         if (ethGetTransactionCount.getTransactionCount().intValue() == 0) {
             ethGetTransactionCount = web3j.platonGetTransactionCount(
-                    credentials.getAddress(chainId), DefaultBlockParameterName.LATEST).send();
+                    credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
         }
 
         return ethGetTransactionCount.getTransactionCount();
@@ -112,7 +115,14 @@ public class RawTransactionManager extends TransactionManager {
         PlatonSendTransaction ethSendTransaction = web3j.platonSendRawTransaction(hexValue).send();
 
         if (ethSendTransaction != null && !ethSendTransaction.hasError()) {
-            String txHashLocal = Hash.sha3(hexValue);
+        	
+        	String txHashLocal;
+        	if (credentials.getEcKeyPair().getAlgorithm() == ECAlgorithm.Secp256k1) {
+        		txHashLocal = Hash.sha3(hexValue);
+        	} else {
+        		txHashLocal = SM3Utils.sm3(hexValue);
+        	}
+          
             String txHashRemote = ethSendTransaction.getTransactionHash();
             if (!txHashVerifier.verify(txHashLocal, txHashRemote)) {
                 throw new TxHashMismatchException(txHashLocal, txHashRemote);

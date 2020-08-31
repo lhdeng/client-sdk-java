@@ -1,7 +1,5 @@
 package org.web3j.abi.datatypes;
 
-import com.platon.sdk.utlis.Bech32;
-import com.platon.sdk.utlis.NetworkParameters;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

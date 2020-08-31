@@ -1,6 +1,5 @@
 package org.web3j.crypto;
 
-import com.platon.sdk.utlis.NetworkParameters;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -22,8 +21,30 @@ public class CredentialsTest {
 	}
 
 	private void verify(Credentials credentials) {
-		assertEquals(credentials.getAddress(NetworkParameters.getMainNetHrp()), SampleKeys.BECH32_ADDRESS.getMainnet());
-		assertEquals(credentials.getAddress(NetworkParameters.getTestNetHrp()), SampleKeys.BECH32_ADDRESS.getTestnet());
+		assertEquals(credentials.getAddress(), SampleKeys.TESTNET_BECH32_ADDRESS);
 		assertThat(credentials.getEcKeyPair(), is(SampleKeys.KEY_PAIR));
+	}
+
+	@Test
+	public void testSm2CredentialsFromString() {
+		Credentials credentials = Credentials.createSm2(SampleKeys.SM2_PRIVATE_KEY_HEX);
+		verifySm2(credentials);
+	}
+
+	@Test
+	public void testSm2CredentialsFromECKeyPair() {
+		Credentials credentials = Credentials.create(SampleKeys.SM2_KEY_PAIR);
+		verifySm2(credentials);
+	}
+
+	@Test
+	public void testSm2CredentialsFromString2() {
+		Credentials credentials = Credentials.createSm2(SampleKeys.SM2_PRIVATE_KEY_HEX, SampleKeys.SM2_PUBLIC_KEY_HEX);
+		verifySm2(credentials);
+	}
+
+	private void verifySm2(Credentials credentials) {
+		assertEquals(credentials.getAddress(), SampleKeys.SM2_BECH32_ADDRESS);
+		assertThat(credentials.getEcKeyPair(), is(SampleKeys.SM2_KEY_PAIR));
 	}
 }

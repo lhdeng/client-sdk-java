@@ -2,7 +2,12 @@ package org.web3j.abi;
 
 public class TypeMappingException extends RuntimeException {
 
-    public TypeMappingException(Exception e) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public TypeMappingException(Exception e) {
         super(e);
     }
 

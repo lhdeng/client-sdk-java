@@ -5,7 +5,12 @@ package org.web3j.crypto;
  */
 public class CipherException extends Exception {
 
-    public CipherException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CipherException(String message) {
         super(message);
     }
 

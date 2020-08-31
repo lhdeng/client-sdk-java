@@ -2,22 +2,16 @@ package org.web3j.tx;
 
 import java.math.BigDecimal;
 
-import com.platon.sdk.utlis.NetworkParameters;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.SampleKeys;
-import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Convert;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 
 public class TransferTest extends ManagedTransactionTester {
 

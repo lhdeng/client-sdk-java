@@ -23,6 +23,7 @@ import com.platon.sdk.utlis.Bech32;
 
 public class BaseTest {
 	static final String URL = "http://127.0.0.1:6789";
+	//static final String URL = "http://10.1.1.5:6789";
 	static final long CHAIN_ID = 200L;
 
 	static final String CREATOR_PRIVATEKEY = "35e8b598593710447fe5315113516a369ed7ac4d6c41ee0bfb8f5708bff1787c";
@@ -44,6 +45,12 @@ public class BaseTest {
 	Credentials creatorCredentials;
 
 	TransactionManager transactionManager;
+	
+	static final String SM2_CREATOR_PRIVATEKEY = "376fa4c2dc4fdca15e3435427bc4e056ed87a2c542e5249dc59a18c4e69589c4";
+	static final String SM2_CREATOR_ADDRESS = "lax1jfr6ar8dah7ghaxfs4826dyrchhted5784ewpj";
+	
+	static final String SM2_USER_PRIVATEKEY_1 = "19472082fee30dbe0eef33348caca790cb254ca5c6f465f5e6fbf89ece68a1ac";
+	static final String SM2_USER_ADDRESS_1 = "lax1udt3ukry8tg80tcr8usq7myv33r36mpxa5hcpm";
 
 	@Before
 	public void init() {

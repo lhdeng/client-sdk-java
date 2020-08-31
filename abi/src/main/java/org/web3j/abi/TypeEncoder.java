@@ -31,13 +31,14 @@ public class TypeEncoder {
 
     private TypeEncoder() { }
 
-    static boolean isDynamic(Type parameter) {
+    @SuppressWarnings("rawtypes")
+	static boolean isDynamic(Type parameter) {
         return parameter instanceof DynamicBytes
                 || parameter instanceof Utf8String
                 || parameter instanceof DynamicArray;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static String encode(Type parameter) {
         if (parameter instanceof NumericType) {
             return encodeNumeric(((NumericType) parameter));
@@ -145,7 +146,8 @@ public class TypeEncoder {
         return encodeDynamicBytes(new DynamicBytes(utfEncoded));
     }
 
-    static <T extends Type> String encodeArrayValues(Array<T> value) {
+    @SuppressWarnings("rawtypes")
+	static <T extends Type> String encodeArrayValues(Array<T> value) {
         StringBuilder result = new StringBuilder();
         for (Type type:value.getValue()) {
             result.append(TypeEncoder.encode(type));
@@ -153,7 +155,8 @@ public class TypeEncoder {
         return result.toString();
     }
 
-    static <T extends Type> String encodeDynamicArray(DynamicArray<T> value) {
+    @SuppressWarnings("rawtypes")
+	static <T extends Type> String encodeDynamicArray(DynamicArray<T> value) {
         int size = value.getValue().size();
         String encodedLength = encode(new Uint(BigInteger.valueOf(size)));
         String encodedValues = encodeArrayValues(value);

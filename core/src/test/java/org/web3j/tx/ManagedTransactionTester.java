@@ -1,6 +1,5 @@
 package org.web3j.tx;
 
-import com.platon.sdk.utlis.NetworkParameters;
 import org.junit.Before;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.SampleKeys;
@@ -33,14 +32,14 @@ public abstract class ManagedTransactionTester {
 
 	public TransactionManager getVerifiedTransactionManager(Credentials credentials, int attempts, int sleepDuration) {
 		RawTransactionManager transactionManager = new RawTransactionManager(web3j, credentials,
-				NetworkParameters.MAIN_NET_CHAIN_ID, attempts, sleepDuration);
+				200L, attempts, sleepDuration);
 		transactionManager.setTxHashVerifier(txHashVerifier);
 		return transactionManager;
 	}
 
 	public TransactionManager getVerifiedTransactionManager(Credentials credentials) {
 		RawTransactionManager transactionManager = new RawTransactionManager(web3j, credentials,
-				NetworkParameters.MAIN_NET_CHAIN_ID);
+				200L);
 		transactionManager.setTxHashVerifier(txHashVerifier);
 		return transactionManager;
 	}
@@ -58,7 +57,7 @@ public abstract class ManagedTransactionTester {
 
 		Request<?, PlatonGetTransactionCount> transactionCountRequest = mock(Request.class);
 		when(transactionCountRequest.send()).thenReturn(ethGetTransactionCount);
-		when(web3j.platonGetTransactionCount(SampleKeys.CREDENTIALS.getAddress(NetworkParameters.MAIN_NET_CHAIN_ID),
+		when(web3j.platonGetTransactionCount(SampleKeys.CREDENTIALS.getAddress(),
 				DefaultBlockParameterName.PENDING)).thenReturn((Request) transactionCountRequest);
 	}
 

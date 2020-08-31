@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
  * <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html">Type</a> to
  * avoid working around this fundamental generics limitation.
  */
+@SuppressWarnings("rawtypes")
 public abstract class TypeReference<T extends org.web3j.abi.datatypes.Type>
         implements Comparable<TypeReference<T>> {
 

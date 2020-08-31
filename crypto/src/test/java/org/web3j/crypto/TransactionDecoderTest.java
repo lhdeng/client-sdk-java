@@ -41,8 +41,7 @@ public class TransactionDecoderTest {
 		BigInteger value = BigInteger.valueOf(Long.MAX_VALUE);
 
 		RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, to, value);
-		byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, NetworkParameters.MAIN_NET_CHAIN_ID,
-				SampleKeys.CREDENTIALS);
+		byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, NetworkParameters.MAIN_NET_CHAIN_ID, SampleKeys.CREDENTIALS);
 		String hexMessage = Numeric.toHexString(signedMessage);
 
 		RawTransaction result = TransactionDecoder.decode(hexMessage);
@@ -55,8 +54,8 @@ public class TransactionDecoderTest {
 		assertEquals("", result.getData());
 		assertTrue(result instanceof SignedRawTransaction);
 		SignedRawTransaction signedResult = (SignedRawTransaction) result;
-		assertEquals(SampleKeys.BECH32_ADDRESS.getMainnet(), signedResult.getFrom());
-		signedResult.verify(SampleKeys.BECH32_ADDRESS.getMainnet());
+		assertEquals(SampleKeys.MAINNET_BECH32_ADDRESS, signedResult.getFrom());
+		signedResult.verify(SampleKeys.MAINNET_BECH32_ADDRESS);
 		assertEquals(NetworkParameters.MAIN_NET_CHAIN_ID, signedResult.getChainId().longValue());
 	}
 
@@ -67,6 +66,6 @@ public class TransactionDecoderTest {
 		// CHECKSTYLE:ON
 		RawTransaction result = TransactionDecoder.decode(hexTransaction);
 		SignedRawTransaction signedResult = (SignedRawTransaction) result;
-		assertEquals(SampleKeys.BECH32_ADDRESS.getMainnet(), signedResult.getFrom());
+		assertEquals(SampleKeys.MAINNET_BECH32_ADDRESS, signedResult.getFrom());
 	}
 }

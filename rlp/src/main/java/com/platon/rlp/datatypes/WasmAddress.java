@@ -16,9 +16,10 @@ public class WasmAddress {
 	public static final int LENGTH_IN_HEX = LENGTH >> 2;
 
 	public WasmAddress(byte[] value) {
-		this(value,NetworkParameters.getHrp());
+		this(value, NetworkParameters.getHrp());
 	}
 
+	@Deprecated
 	public WasmAddress(byte[] value, long chainId) {
 		this(value, NetworkParameters.getHrp(chainId));
 	}
@@ -56,11 +57,12 @@ public class WasmAddress {
 		return address;
 	}
 
-
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		WasmAddress address = (WasmAddress) o;
 		return Objects.equals(bigIntValue, address.bigIntValue);
 	}

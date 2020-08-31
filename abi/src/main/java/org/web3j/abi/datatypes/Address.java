@@ -19,25 +19,32 @@ public class Address implements Type<String> {
 	private final Uint160 value;
 	private final String address;
 
-	public Address(Uint160 value, long chainId) {
-		this(value, NetworkParameters.getHrp(chainId));
-	}
-
 	public Address(Uint160 value, String hrp) {
 		this.value = value;
-		this.address = Bech32.addressEncode(hrp,
-				Numeric.toHexStringWithPrefixZeroPadded(value.getValue(), LENGTH_IN_HEX));
+		this.address = Bech32.addressEncode(hrp, Numeric.toHexStringWithPrefixZeroPadded(value.getValue(), LENGTH_IN_HEX));
 	}
 
-	public Address(BigInteger inputValue, long chainId) {
-		this.value = new Uint160(inputValue);
-		this.address = Bech32.addressEncode(NetworkParameters.getHrp(chainId),
-				Numeric.toHexStringWithPrefixZeroPadded(inputValue, LENGTH_IN_HEX));
+	public Address(Uint160 value) {
+		this(value, NetworkParameters.getHrp());
+	}
+
+	public Address(BigInteger inputValue) {
+		this(new Uint160(inputValue), NetworkParameters.getHrp());
 	}
 
 	public Address(String bechValue) {
 		this.value = new Uint160(Numeric.toBigInt(Bech32.addressDecodeHex(bechValue)));
 		this.address = bechValue;
+	}
+
+	@Deprecated
+	public Address(Uint160 value, long chainId) {
+		this(value, NetworkParameters.getHrp(chainId));
+	}
+
+	@Deprecated
+	public Address(BigInteger inputValue, long chainId) {
+		this(new Uint160(inputValue), NetworkParameters.getHrp(chainId));
 	}
 
 	public Uint160 toUint160() {

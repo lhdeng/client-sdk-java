@@ -85,6 +85,44 @@ public class WalletUtilsTest {
 	private void testGeneratedNewWalletFile(String fileName) throws Exception {
 		WalletUtils.loadCredentials(PASSWORD, new File(tempDir, fileName));
 	}
+	
+	@Test
+	public void testGenerateSm2FullNewWalletFile() throws Exception {
+		String fileName = WalletUtils.generateSm2FullNewWalletFile(PASSWORD, tempDir);
+		testGeneratedSm2NewWalletFile(fileName);
+	}
+
+	@Test
+	public void testGenerateSm2NewWalletFile() throws Exception {
+		String fileName = WalletUtils.generateSm2NewWalletFile(PASSWORD, tempDir);
+		testGeneratedSm2NewWalletFile(fileName);
+	}
+
+	@Test
+	public void testGenerateSm2LightNewWalletFile() throws Exception {
+		String fileName = WalletUtils.generateSm2LightNewWalletFile(PASSWORD, tempDir);
+		testGeneratedSm2NewWalletFile(fileName);
+	}
+
+	@Test
+	public void testGenerateSm2PlatONWalletFile() throws Exception {
+		String fileName = WalletUtils.generateSm2PlatONWalletFile(PASSWORD, tempDir);
+		testGeneratedSm2NewWalletFile(fileName);
+	}
+
+	@Test
+	public void testGenerateSm2PlatONBip39Wallet() throws Exception {
+		Bip39Wallet wallet = WalletUtils.generateSm2PlatONBip39Wallet(PASSWORD, tempDir);
+
+		byte[] seed = MnemonicUtils.generateSeed(wallet.getMnemonic(), PASSWORD);
+		Credentials credentials = Credentials.create(ECKeyPair.createSm2(sha256(seed)));
+
+		assertEquals(credentials, WalletUtils.loadSm2Bip39Credentials(PASSWORD, wallet.getMnemonic()));
+	}
+
+	private void testGeneratedSm2NewWalletFile(String fileName) throws Exception {
+		WalletUtils.loadSm2Credentials(PASSWORD, new File(tempDir, fileName));
+	}
 
 	@Test
 	public void testGenerateFullWalletFile() throws Exception {
@@ -103,12 +141,29 @@ public class WalletUtilsTest {
 
 		assertThat(credentials, equalTo(CREDENTIALS));
 	}
+	
+	@Test
+	public void testGenerateSm2FullWalletFile() throws Exception {
+		String fileName = WalletUtils.generateWalletFile(PASSWORD, SM2_KEY_PAIR, tempDir, true);
+		testGenerateSm2WalletFile(fileName);
+	}
+
+	@Test
+	public void testGenerateSm2LightWalletFile() throws Exception {
+		String fileName = WalletUtils.generateWalletFile(PASSWORD, SM2_KEY_PAIR, tempDir, false);
+		testGenerateSm2WalletFile(fileName);
+	}
+
+	private void testGenerateSm2WalletFile(String fileName) throws Exception {
+		Credentials credentials = WalletUtils.loadSm2Credentials(PASSWORD, new File(tempDir, fileName));
+
+		assertThat(credentials, equalTo(SM2_CREDENTIALS));
+	}
 
 	@Test
 	public void testLoadCredentialsFromFile() throws Exception {
-		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, new File(WalletUtilsTest.class.getResource(
-				"/keyfiles/" + "UTC--2016-11-03T05-55-06." + "340672473Z--ef678007d18427e6022059dbc264f27507cd1ffc")
-				.getFile()));
+		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, new File(WalletUtilsTest.class
+				.getResource("/keyfiles/" + "UTC--2016-11-03T05-55-06." + "340672473Z--ef678007d18427e6022059dbc264f27507cd1ffc").getFile()));
 
 		assertThat(credentials, equalTo(CREDENTIALS));
 	}
@@ -120,25 +175,24 @@ public class WalletUtilsTest {
 	 */
 	@Test
 	public void testLoadCredentialsFromOldFormatFile() throws Exception {
-		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, new File(WalletUtilsTest.class
-				.getResource("/keyfiles/old-format-wallet--ef678007d18427e6022059dbc264f27507cd1ffc.json").getFile()));
+		Credentials credentials = WalletUtils.loadCredentials(PASSWORD,
+				new File(WalletUtilsTest.class.getResource("/keyfiles/old-format-wallet--ef678007d18427e6022059dbc264f27507cd1ffc.json").getFile()));
 
 		assertThat(credentials, equalTo(CREDENTIALS));
 	}
 
 	@Test
 	public void testLoadCredentialsFromString() throws Exception {
-		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, WalletUtilsTest.class.getResource(
-				"/keyfiles/" + "UTC--2016-11-03T05-55-06." + "340672473Z--ef678007d18427e6022059dbc264f27507cd1ffc")
-				.getFile());
+		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, WalletUtilsTest.class
+				.getResource("/keyfiles/" + "UTC--2016-11-03T05-55-06." + "340672473Z--ef678007d18427e6022059dbc264f27507cd1ffc").getFile());
 
 		assertThat(credentials, equalTo(CREDENTIALS));
 	}
 
 	@Test
 	public void testLoadCredentialsFromOldFormatString() throws Exception {
-		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, WalletUtilsTest.class
-				.getResource("/keyfiles/old-format-wallet--ef678007d18427e6022059dbc264f27507cd1ffc.json").getFile());
+		Credentials credentials = WalletUtils.loadCredentials(PASSWORD,
+				WalletUtilsTest.class.getResource("/keyfiles/old-format-wallet--ef678007d18427e6022059dbc264f27507cd1ffc.json").getFile());
 
 		assertThat(credentials, equalTo(CREDENTIALS));
 	}
@@ -146,19 +200,15 @@ public class WalletUtilsTest {
 	@Ignore // enable if users need to work with MyEtherWallet
 	@Test
 	public void testLoadCredentialsMyEtherWallet() throws Exception {
-		Credentials credentials = WalletUtils.loadCredentials(PASSWORD,
-				new File(WalletUtilsTest.class.getResource(
-						"/keyfiles/" + "UTC--2016-11-03T07-47-45." + "988Z--4f9c1a1efaa7d81ba1cabf07f2c3a5ac5cf4f818")
-						.getFile()));
+		Credentials credentials = WalletUtils.loadCredentials(PASSWORD, new File(WalletUtilsTest.class
+				.getResource("/keyfiles/" + "UTC--2016-11-03T07-47-45." + "988Z--4f9c1a1efaa7d81ba1cabf07f2c3a5ac5cf4f818").getFile()));
 
-		assertThat(credentials,
-				equalTo(Credentials.create("6ca4203d715e693279d6cd9742ad2fb7a3f6f4abe27a64da92e0a70ae5d859c9")));
+		assertThat(credentials, equalTo(Credentials.create("6ca4203d715e693279d6cd9742ad2fb7a3f6f4abe27a64da92e0a70ae5d859c9")));
 	}
 
 	@Test
 	public void testGetDefaultKeyDirectory() {
-		assertTrue(WalletUtils.getDefaultKeyDirectory("Mac OS X")
-				.endsWith(String.format("%sLibrary%sEthereum", File.separator, File.separator)));
+		assertTrue(WalletUtils.getDefaultKeyDirectory("Mac OS X").endsWith(String.format("%sLibrary%sEthereum", File.separator, File.separator)));
 		assertTrue(WalletUtils.getDefaultKeyDirectory("Windows").endsWith(String.format("%sEthereum", File.separator)));
 		assertTrue(WalletUtils.getDefaultKeyDirectory("Linux").endsWith(String.format("%s.ethereum", File.separator)));
 	}
@@ -166,10 +216,8 @@ public class WalletUtilsTest {
 	@Test
 	public void testGetTestnetKeyDirectory() {
 		assertTrue(WalletUtils.getMainnetKeyDirectory().endsWith(String.format("%skeystore", File.separator)));
-		assertTrue(WalletUtils.getTestnetKeyDirectory()
-				.endsWith(String.format("%stestnet%skeystore", File.separator, File.separator)));
-		assertTrue(WalletUtils.getRinkebyKeyDirectory()
-				.endsWith(String.format("%srinkeby%skeystore", File.separator, File.separator)));
+		assertTrue(WalletUtils.getTestnetKeyDirectory().endsWith(String.format("%stestnet%skeystore", File.separator, File.separator)));
+		assertTrue(WalletUtils.getRinkebyKeyDirectory().endsWith(String.format("%srinkeby%skeystore", File.separator, File.separator)));
 
 	}
 
@@ -189,11 +237,11 @@ public class WalletUtilsTest {
 
 	@Test
 	public void testIsValidAddress() {
-		assertTrue(isValidAddress(BECH32_ADDRESS.getMainnet()));
+		assertTrue(isValidAddress(MAINNET_BECH32_ADDRESS));
 
 		assertFalse(isValidAddress(""));
-		assertFalse(isValidAddress(BECH32_ADDRESS.getMainnet() + 'a'));
-		assertFalse(isValidAddress(BECH32_ADDRESS.getMainnet().substring(1)));
+		assertFalse(isValidAddress(MAINNET_BECH32_ADDRESS + 'a'));
+		assertFalse(isValidAddress(MAINNET_BECH32_ADDRESS.substring(1)));
 	}
 
 }

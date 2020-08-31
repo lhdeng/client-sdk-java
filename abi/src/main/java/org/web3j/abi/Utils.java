@@ -20,10 +20,11 @@ import org.web3j.abi.datatypes.Utf8String;
 /**
  * Utility functions.
  */
+@SuppressWarnings("rawtypes")
 public class Utils {
     private Utils() {}
 
-    static <T extends Type> String getTypeName(TypeReference<T> typeReference) {
+	static <T extends Type> String getTypeName(TypeReference<T> typeReference) {
         try {
             java.lang.reflect.Type reflectedType = typeReference.getType();
 
