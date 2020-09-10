@@ -51,14 +51,14 @@ public class NodeManagerTest extends BaseTest {
 	@Test
 	public void addTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
-		String name = "";
-		String owner = "";
+		String name = "node-2";
+		String owner = "lax1kwu5qpqjrhdkln42ayzrnw3rg3nqj3xnkn4wmd";
 		String desc = "";
-		String publicKey = "";
-		String blsPubKey = "";
-		String hostAddress = "";
-		BigInteger rpcPort = BigInteger.valueOf(6789);
-		BigInteger p2pPort = BigInteger.valueOf(16789);
+		String publicKey = "babd99766a36246e46bda65aed84a849e685db5bd0a0d920e2e59a11250d4d6e6c5293da9c1b0f2b1ca76760071f88973a0fa29dfb497c49424a21cbf79c18dc";
+		String blsPubKey = "67ce9a72d589e467f9e9138a7a09ac571b703e66ceedc09897d556dc55766b8ac95d8f4c0ae21ff2569f08110657d619a0952325654cb3bd326ae809eec687c840db7daddeee703ff68ef453b60c2375a312f2e16de30e4d0cba67ea88a8d396";
+		String hostAddress = "127.0.0.1";
+		BigInteger rpcPort = BigInteger.valueOf(7789);
+		BigInteger p2pPort = BigInteger.valueOf(26789);
 		TransactionReceipt receipt = nodeManager.Add(name, owner, desc, publicKey, blsPubKey, hostAddress, rpcPort, p2pPort).send();
 		parseRecepit(receipt);
 	}
