@@ -1,5 +1,6 @@
 package org.platone.inner.contracts.dto;
 
+@Deprecated
 public class UserInfo {
 	private String address;
 	private String name;

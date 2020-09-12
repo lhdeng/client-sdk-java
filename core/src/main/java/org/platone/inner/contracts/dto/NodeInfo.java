@@ -1,5 +1,6 @@
 package org.platone.inner.contracts.dto;
 
+@Deprecated
 public class NodeInfo {
 	private String name;
 	private String owner;

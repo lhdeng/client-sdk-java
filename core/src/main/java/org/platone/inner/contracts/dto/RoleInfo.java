@@ -2,6 +2,7 @@ package org.platone.inner.contracts.dto;
 
 import java.math.BigInteger;
 
+@Deprecated
 public class RoleInfo {
 	private String address;
 	private String name;

@@ -1,5 +1,6 @@
 package org.platone.inner.contracts.dto;
 
+@Deprecated
 public class NodeRegReq {
 	private String name;
 	private String desc;

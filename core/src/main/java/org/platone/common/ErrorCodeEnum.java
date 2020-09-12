@@ -30,6 +30,8 @@ public enum ErrorCodeEnum {
 	ErrNodeOwnerNotExists(301025, "The node owner does not exists"), 
 	ErrNodeOwnerNotValid(301026, "The node owner is not valid"),
 	ErrNodeOwnerNoPermission(301027, "The node owner has no permission"),
+	ErrNodeCanNotDeleted(301028, "The consensus node cannot be deleted"),
+    ErrNodeCanNotDisabled(301029, "The consensus node cannot be disabled"),
 
 	// User manager contract error code definition
 	ErrUserInternal(302001, "User manager contract internal error"),

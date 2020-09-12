@@ -2,7 +2,7 @@ package org.platone.inner.contracts.dto;
 
 import java.math.BigInteger;
 
-
+@Deprecated
 public class UserRegReq {
 	private String name;
 	private String mobile;
