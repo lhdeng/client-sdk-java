@@ -15,8 +15,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.Strings;
 
-import com.platone.sm.SM2Utils;
-import com.platone.sm.SM3Utils;
+import com.platon.sm.SM2Utils;
+import com.platon.sm.SM3Utils;
 
 import static org.web3j.crypto.SecureRandomUtils.secureRandom;
 

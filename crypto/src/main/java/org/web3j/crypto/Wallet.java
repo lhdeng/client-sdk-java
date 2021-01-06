@@ -1,8 +1,8 @@
 package org.web3j.crypto;
 
+import com.platon.sm.SM3Utils;
 import com.platone.sdk.utlis.Bech32;
 import com.platone.sdk.utlis.NetworkParameters;
-import com.platone.sm.SM3Utils;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;

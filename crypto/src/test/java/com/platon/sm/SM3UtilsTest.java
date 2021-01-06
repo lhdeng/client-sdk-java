@@ -1,10 +1,10 @@
-package com.platone.sm;
+package com.platon.sm;
 
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.web3j.utils.Numeric;
 
-import com.platone.sm.SM3Utils;
+import com.platon.sm.SM3Utils;
 
 import static org.hamcrest.core.Is.is;
 

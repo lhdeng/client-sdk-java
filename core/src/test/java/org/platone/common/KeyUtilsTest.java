@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.platone.common.KeyUtils.BlsKey;
 import org.platone.common.KeyUtils.NodeKey;
@@ -27,6 +28,7 @@ public class KeyUtilsTest {
 	}
 
 	@Test
+	@Ignore
 	public void testCreateBlsKey() throws IOException {
 		String keytoolPath = getKeytoolPath();
 		BlsKey blsKey = KeyUtils.createBlsKey(keytoolPath);
@@ -40,6 +42,7 @@ public class KeyUtilsTest {
 	}
 
 	@Test
+	@Ignore
 	public void testCreatePubKey() throws IOException {
 		String keytoolPath = getKeytoolPath();
 		NodeKey nodeKey = KeyUtils.createNodeKey(keytoolPath);

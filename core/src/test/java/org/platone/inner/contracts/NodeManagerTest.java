@@ -3,6 +3,7 @@ package org.platone.inner.contracts;
 import java.math.BigInteger;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.platone.common.AuditStatusEnum;
 import org.platone.common.ErrorCodeEnum;
@@ -25,6 +26,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void applyTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -39,6 +41,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void auditTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -49,6 +52,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void addTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "node-2";
@@ -64,6 +68,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void updateTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -76,6 +81,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void deleteTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -84,6 +90,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void disableTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -92,6 +99,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void enableTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -100,6 +108,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void updateTypeTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -109,6 +118,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void getByNameTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String name = "";
@@ -117,6 +127,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void getByPublicKeyTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String publicKey = "";
@@ -125,6 +136,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void listAllTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String result = nodeManager.ListAll().send();
@@ -132,6 +144,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void listByStatTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		BigInteger status = BigInteger.valueOf(NodeStatusEnum.Valid.getStatus());
@@ -140,6 +153,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void listByTypeTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		BigInteger type = BigInteger.valueOf(NodeTypeEnum.ConsensusNode.getType());
@@ -148,6 +162,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void listByOwnerTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String owner = "";
@@ -156,6 +171,7 @@ public class NodeManagerTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void listByHostAddressTest() throws Exception {
 		NodeManager nodeManager = NodeManager.load(web3j, transactionManager, contractGasProvider, CHAIN_ID);
 		String hostAddress = "";

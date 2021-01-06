@@ -1,4 +1,4 @@
-package com.platone.sm;
+package com.platon.sm;
 
 import java.nio.charset.StandardCharsets;
 

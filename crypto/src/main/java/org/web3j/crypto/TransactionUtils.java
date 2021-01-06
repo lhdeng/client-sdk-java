@@ -2,7 +2,7 @@ package org.web3j.crypto;
 
 import org.web3j.utils.Numeric;
 
-import com.platone.sm.SM3Utils;
+import com.platon.sm.SM3Utils;
 
 /**
  * Transaction utility functions.

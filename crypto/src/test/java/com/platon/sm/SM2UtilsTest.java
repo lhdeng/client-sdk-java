@@ -1,12 +1,12 @@
-package com.platone.sm;
+package com.platon.sm;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.web3j.utils.Numeric;
 
-import com.platone.sm.SM2Utils;
-import com.platone.sm.SM3Utils;
+import com.platon.sm.SM2Utils;
+import com.platon.sm.SM3Utils;
 
 public class SM2UtilsTest {
 	static final String SM2_PRIVATE_KEY = "0xc6b832bdbbfa61e970c921d9a09fa89337458db65c2c293fd7e18490bacdf681";
