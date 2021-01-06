@@ -25,18 +25,18 @@ import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.PlatonCall;
-import org.web3j.protocol.core.methods.response.PlatonGetCode;
+import org.web3j.protocol.core.methods.response.PlatoneCall;
+import org.web3j.protocol.core.methods.response.PlatoneGetCode;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.tx.gas.GasProvider;
 import org.web3j.utils.Numeric;
 
-import com.platon.rlp.RLPCodec;
-import com.platon.rlp.RLPList;
-import com.platon.rlp.datatypes.Int;
-import com.platon.rlp.datatypes.Uint;
+import com.platone.rlp.RLPCodec;
+import com.platone.rlp.RLPList;
+import com.platone.rlp.datatypes.Int;
+import com.platone.rlp.datatypes.Uint;
 
 /**
  * Wasm contract type abstraction for interacting with smart contracts via native Java types.
@@ -103,7 +103,7 @@ public abstract class WasmContract extends ManagedTransaction {
 					"Contract binary not present, you will need to regenerate your smart contract wrapper with web3j v2.2.0+");
 		}
 
-		PlatonGetCode ethGetCode = web3j.platonGetCode(contractAddress, DefaultBlockParameterName.LATEST).send();
+		PlatoneGetCode ethGetCode = web3j.platoneGetCode(contractAddress, DefaultBlockParameterName.LATEST).send();
 		if (ethGetCode.hasError()) {
 			return false;
 		}
@@ -137,8 +137,8 @@ public abstract class WasmContract extends ManagedTransaction {
 	protected <T> T executeCall(WasmFunction function, Class<T> clazz) throws IOException {
 		String encodedFunction = WasmFunctionEncoder.encode(function);
 
-		PlatonCall ethCall = web3j
-				.platonCall(Transaction.createEthCallTransaction(transactionManager.getFromAddress(), contractAddress, encodedFunction),
+		PlatoneCall ethCall = web3j
+				.platoneCall(Transaction.createEthCallTransaction(transactionManager.getFromAddress(), contractAddress, encodedFunction),
 						defaultBlockParameter)
 				.send();
 

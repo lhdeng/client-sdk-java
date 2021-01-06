@@ -1,8 +1,8 @@
 package org.web3j.crypto;
 
-import com.platon.sdk.utlis.Bech32;
-import com.platon.sdk.utlis.NetworkParameters;
-import com.platon.sm.SM3Utils;
+import com.platone.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.NetworkParameters;
+import com.platone.sm.SM3Utils;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
@@ -60,8 +60,8 @@ public class Wallet {
 	private static final int N_STANDARD = 1 << 18;
 	private static final int P_STANDARD = 1;
 
-	private static final int N_PLATON = 1 << 14;
-	private static final int P_PLATON = 1;
+	private static final int N_PLATONE = 1 << 14;
+	private static final int P_PLATONE = 1;
 
 	private static final int R = 8;
 	private static final int DKLEN = 32;
@@ -102,8 +102,8 @@ public class Wallet {
 		return create(password, ecKeyPair, N_LIGHT, P_LIGHT);
 	}
 
-	public static WalletFile createPlatON(String password, ECKeyPair ecKeyPair) throws CipherException {
-		return create(password, ecKeyPair, N_PLATON, P_PLATON);
+	public static WalletFile createPlatONE(String password, ECKeyPair ecKeyPair) throws CipherException {
+		return create(password, ecKeyPair, N_PLATONE, P_PLATONE);
 	}
 
 	private static WalletFile createWalletFile(ECKeyPair ecKeyPair, byte[] cipherText, byte[] iv, byte[] salt,

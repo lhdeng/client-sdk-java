@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonLog;
+import org.web3j.protocol.core.methods.response.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneLog;
 
 /**
  * Handler for working with block filter requests.
@@ -20,15 +20,15 @@ public class BlockFilter extends Filter<String> {
     }
 
     @Override
-    PlatonFilter sendRequest() throws IOException {
-        return web3j.platonNewBlockFilter().send();
+    PlatoneFilter sendRequest() throws IOException {
+        return web3j.platoneNewBlockFilter().send();
     }
 
     @Override
-    void process(List<PlatonLog.LogResult> logResults) {
-        for (PlatonLog.LogResult logResult : logResults) {
-            if (logResult instanceof PlatonLog.Hash) {
-                String blockHash = ((PlatonLog.Hash) logResult).get();
+    void process(List<PlatoneLog.LogResult> logResults) {
+        for (PlatoneLog.LogResult logResult : logResults) {
+            if (logResult instanceof PlatoneLog.Hash) {
+                String blockHash = ((PlatoneLog.Hash) logResult).get();
                 callback.onEvent(blockHash);
             } else {
                 throw new FilterException(
@@ -46,7 +46,7 @@ public class BlockFilter extends Filter<String> {
      * Optional.empty()
      */
     @Override
-    protected Optional<Request<?, PlatonLog>> getFilterLogs(BigInteger filterId) {
+    protected Optional<Request<?, PlatoneLog>> getFilterLogs(BigInteger filterId) {
         return Optional.empty();
     }
 }

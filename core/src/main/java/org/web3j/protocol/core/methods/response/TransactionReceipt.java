@@ -7,7 +7,7 @@ import java.util.List;
 import org.web3j.utils.Numeric;
 
 /**
- * TransactionReceipt object used by {@link PlatonGetTransactionReceipt}.
+ * TransactionReceipt object used by {@link PlatoneGetTransactionReceipt}.
  */
 public class TransactionReceipt {
     private String transactionHash;

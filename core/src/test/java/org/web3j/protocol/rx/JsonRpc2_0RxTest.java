@@ -20,10 +20,10 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.DefaultBlockParameterNumber;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.PlatonBlock;
-import org.web3j.protocol.core.methods.response.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonLog;
-import org.web3j.protocol.core.methods.response.PlatonUninstallFilter;
+import org.web3j.protocol.core.methods.response.PlatoneBlock;
+import org.web3j.protocol.core.methods.response.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneLog;
+import org.web3j.protocol.core.methods.response.PlatoneUninstallFilter;
 import org.web3j.utils.Numeric;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -52,15 +52,15 @@ public class JsonRpc2_0RxTest {
     @Test
     public void testReplayBlocksObservable() throws Exception {
 
-        List<PlatonBlock> ethBlocks = Arrays.asList(createBlock(0), createBlock(1), createBlock(2));
+        List<PlatoneBlock> ethBlocks = Arrays.asList(createBlock(0), createBlock(1), createBlock(2));
 
-        OngoingStubbing<PlatonBlock> stubbing =
-                when(web3jService.send(any(Request.class), eq(PlatonBlock.class)));
-        for (PlatonBlock ethBlock : ethBlocks) {
+        OngoingStubbing<PlatoneBlock> stubbing =
+                when(web3jService.send(any(Request.class), eq(PlatoneBlock.class)));
+        for (PlatoneBlock ethBlock : ethBlocks) {
             stubbing = stubbing.thenReturn(ethBlock);
         }
 
-        Observable<PlatonBlock> observable = web3j.replayBlocksObservable(
+        Observable<PlatoneBlock> observable = web3j.replayBlocksObservable(
                 new DefaultBlockParameterNumber(BigInteger.ZERO),
                 new DefaultBlockParameterNumber(BigInteger.valueOf(2)),
                 false);
@@ -68,7 +68,7 @@ public class JsonRpc2_0RxTest {
         CountDownLatch transactionLatch = new CountDownLatch(ethBlocks.size());
         CountDownLatch completedLatch = new CountDownLatch(1);
 
-        List<PlatonBlock> results = new ArrayList<>(ethBlocks.size());
+        List<PlatoneBlock> results = new ArrayList<>(ethBlocks.size());
         Subscription subscription = observable.subscribe(
                 result -> {
                     results.add(result);
@@ -89,15 +89,15 @@ public class JsonRpc2_0RxTest {
     @Test
     public void testReplayBlocksDescendingObservable() throws Exception {
 
-        List<PlatonBlock> ethBlocks = Arrays.asList(createBlock(2), createBlock(1), createBlock(0));
+        List<PlatoneBlock> ethBlocks = Arrays.asList(createBlock(2), createBlock(1), createBlock(0));
 
-        OngoingStubbing<PlatonBlock> stubbing =
-                when(web3jService.send(any(Request.class), eq(PlatonBlock.class)));
-        for (PlatonBlock ethBlock : ethBlocks) {
+        OngoingStubbing<PlatoneBlock> stubbing =
+                when(web3jService.send(any(Request.class), eq(PlatoneBlock.class)));
+        for (PlatoneBlock ethBlock : ethBlocks) {
             stubbing = stubbing.thenReturn(ethBlock);
         }
 
-        Observable<PlatonBlock> observable = web3j.replayBlocksObservable(
+        Observable<PlatoneBlock> observable = web3j.replayBlocksObservable(
                 new DefaultBlockParameterNumber(BigInteger.ZERO),
                 new DefaultBlockParameterNumber(BigInteger.valueOf(2)),
                 false, false);
@@ -105,7 +105,7 @@ public class JsonRpc2_0RxTest {
         CountDownLatch transactionLatch = new CountDownLatch(ethBlocks.size());
         CountDownLatch completedLatch = new CountDownLatch(1);
 
-        List<PlatonBlock> results = new ArrayList<>(ethBlocks.size());
+        List<PlatoneBlock> results = new ArrayList<>(ethBlocks.size());
         Subscription subscription = observable.subscribe(
                 result -> {
                     results.add(result);
@@ -125,12 +125,12 @@ public class JsonRpc2_0RxTest {
 
     @Test
     public void testCatchUpToLatestAndSubscribeToNewBlockObservable() throws Exception {
-        List<PlatonBlock> expected = Arrays.asList(
+        List<PlatoneBlock> expected = Arrays.asList(
                 createBlock(0), createBlock(1), createBlock(2),
                 createBlock(3), createBlock(4), createBlock(5),
                 createBlock(6));
 
-        List<PlatonBlock> ethBlocks = Arrays.asList(
+        List<PlatoneBlock> ethBlocks = Arrays.asList(
                 expected.get(2),  // greatest block
                 expected.get(0), expected.get(1), expected.get(2),
                 expected.get(4), // greatest block
@@ -139,41 +139,41 @@ public class JsonRpc2_0RxTest {
                 expected.get(5),  // initial response from platonGetFilterLogs call
                 expected.get(6)); // subsequent block from new block observable
 
-        OngoingStubbing<PlatonBlock> stubbing =
-                when(web3jService.send(any(Request.class), eq(PlatonBlock.class)));
-        for (PlatonBlock ethBlock : ethBlocks) {
+        OngoingStubbing<PlatoneBlock> stubbing =
+                when(web3jService.send(any(Request.class), eq(PlatoneBlock.class)));
+        for (PlatoneBlock ethBlock : ethBlocks) {
             stubbing = stubbing.thenReturn(ethBlock);
         }
 
-        PlatonFilter ethFilter = objectMapper.readValue(
+        PlatoneFilter ethFilter = objectMapper.readValue(
                 "{\n"
                         + "  \"id\":1,\n"
                         + "  \"jsonrpc\": \"2.0\",\n"
                         + "  \"result\": \"0x1\"\n"
-                        + "}", PlatonFilter.class);
-        PlatonLog ethLog = objectMapper.readValue(
+                        + "}", PlatoneFilter.class);
+        PlatoneLog ethLog = objectMapper.readValue(
                 "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":["
                         + "\"0x31c2342b1e0b8ffda1507fbffddf213c4b3c1e819ff6a84b943faabb0ebf2403\""
                         + "]}",
-                PlatonLog.class);
-        PlatonUninstallFilter ethUninstallFilter = objectMapper.readValue(
-                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", PlatonUninstallFilter.class);
+                PlatoneLog.class);
+        PlatoneUninstallFilter ethUninstallFilter = objectMapper.readValue(
+                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", PlatoneUninstallFilter.class);
 
-        when(web3jService.send(any(Request.class), eq(PlatonFilter.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneFilter.class)))
                 .thenReturn(ethFilter);
-        when(web3jService.send(any(Request.class), eq(PlatonLog.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneLog.class)))
                 .thenReturn(ethLog);
-        when(web3jService.send(any(Request.class), eq(PlatonUninstallFilter.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneUninstallFilter.class)))
                 .thenReturn(ethUninstallFilter);
 
-        Observable<PlatonBlock> observable = web3j.catchUpToLatestAndSubscribeToNewBlocksObservable(
+        Observable<PlatoneBlock> observable = web3j.catchUpToLatestAndSubscribeToNewBlocksObservable(
                 new DefaultBlockParameterNumber(BigInteger.ZERO),
                 false);
 
         CountDownLatch transactionLatch = new CountDownLatch(expected.size());
         CountDownLatch completedLatch = new CountDownLatch(1);
 
-        List<PlatonBlock> results = new ArrayList<>(expected.size());
+        List<PlatoneBlock> results = new ArrayList<>(expected.size());
         Subscription subscription = observable.subscribe(
                 result -> {
                     results.add(result);
@@ -191,9 +191,9 @@ public class JsonRpc2_0RxTest {
         assertTrue(subscription.isUnsubscribed());
     }
 
-    private PlatonBlock createBlock(int number) {
-        PlatonBlock ethBlock = new PlatonBlock();
-        PlatonBlock.Block block = new PlatonBlock.Block();
+    private PlatoneBlock createBlock(int number) {
+        PlatoneBlock ethBlock = new PlatoneBlock();
+        PlatoneBlock.Block block = new PlatoneBlock.Block();
         block.setNumber(Numeric.encodeQuantity(BigInteger.valueOf(number)));
 
         ethBlock.setResult(block);

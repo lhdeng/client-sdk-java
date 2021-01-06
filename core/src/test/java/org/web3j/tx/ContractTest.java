@@ -33,10 +33,10 @@ import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.PlatonCall;
-import org.web3j.protocol.core.methods.response.PlatonGetCode;
-import org.web3j.protocol.core.methods.response.PlatonGetTransactionReceipt;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneCall;
+import org.web3j.protocol.core.methods.response.PlatoneGetCode;
+import org.web3j.protocol.core.methods.response.PlatoneGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
@@ -146,7 +146,7 @@ public class ContractTest extends ManagedTransactionTester {
 	public void testCallSingleValue() throws Exception {
 		// Example taken from FunctionReturnDecoderTest
 
-		PlatonCall ethCall = new PlatonCall();
+		PlatoneCall ethCall = new PlatoneCall();
 		ethCall.setResult("0x0000000000000000000000000000000000000000000000000000000000000020"
 				+ "0000000000000000000000000000000000000000000000000000000000000000");
 		prepareCall(ethCall);
@@ -158,7 +158,7 @@ public class ContractTest extends ManagedTransactionTester {
 	public void testCallSingleValueEmpty() throws Exception {
 		// Example taken from FunctionReturnDecoderTest
 
-		PlatonCall ethCall = new PlatonCall();
+		PlatoneCall ethCall = new PlatoneCall();
 		ethCall.setResult("0x");
 		prepareCall(ethCall);
 
@@ -167,7 +167,7 @@ public class ContractTest extends ManagedTransactionTester {
 
 	@Test
 	public void testCallMultipleValue() throws Exception {
-		PlatonCall ethCall = new PlatonCall();
+		PlatoneCall ethCall = new PlatoneCall();
 		ethCall.setResult("0x0000000000000000000000000000000000000000000000000000000000000037"
 				+ "0000000000000000000000000000000000000000000000000000000000000007");
 		prepareCall(ethCall);
@@ -178,7 +178,7 @@ public class ContractTest extends ManagedTransactionTester {
 
 	@Test
 	public void testCallMultipleValueEmpty() throws Exception {
-		PlatonCall ethCall = new PlatonCall();
+		PlatoneCall ethCall = new PlatoneCall();
 		ethCall.setResult("0x");
 		prepareCall(ethCall);
 
@@ -186,11 +186,11 @@ public class ContractTest extends ManagedTransactionTester {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void prepareCall(PlatonCall ethCall) throws IOException {
-		Request<?, PlatonCall> request = mock(Request.class);
+	private void prepareCall(PlatoneCall ethCall) throws IOException {
+		Request<?, PlatoneCall> request = mock(Request.class);
 		when(request.send()).thenReturn(ethCall);
 
-		when(web3j.platonCall(any(Transaction.class), eq(DefaultBlockParameterName.LATEST)))
+		when(web3j.platoneCall(any(Transaction.class), eq(DefaultBlockParameterName.LATEST)))
 				.thenReturn((Request) request);
 	}
 
@@ -259,12 +259,12 @@ public class ContractTest extends ManagedTransactionTester {
 	public void testInvalidTransactionResponse() throws Throwable {
 		prepareNonceRequest();
 
-		PlatonSendTransaction ethSendTransaction = new PlatonSendTransaction();
+		PlatoneSendTransaction ethSendTransaction = new PlatoneSendTransaction();
 		ethSendTransaction.setError(new Response.Error(1, "Invalid transaction"));
 
-		Request<?, PlatonSendTransaction> rawTransactionRequest = mock(Request.class);
+		Request<?, PlatoneSendTransaction> rawTransactionRequest = mock(Request.class);
 		when(rawTransactionRequest.sendAsync()).thenReturn(Async.run(() -> ethSendTransaction));
-		when(web3j.platonSendRawTransaction(any(String.class))).thenReturn((Request) rawTransactionRequest);
+		when(web3j.platoneSendRawTransaction(any(String.class))).thenReturn((Request) rawTransactionRequest);
 
 		testErrorScenario();
 	}
@@ -298,12 +298,12 @@ public class ContractTest extends ManagedTransactionTester {
 		prepareNonceRequest();
 		prepareTransactionRequest();
 
-		PlatonGetTransactionReceipt ethGetTransactionReceipt = new PlatonGetTransactionReceipt();
+		PlatoneGetTransactionReceipt ethGetTransactionReceipt = new PlatoneGetTransactionReceipt();
 		ethGetTransactionReceipt.setError(new Response.Error(1, "Invalid transaction receipt"));
 
-		Request<?, PlatonGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
+		Request<?, PlatoneGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
 		when(getTransactionReceiptRequest.sendAsync()).thenReturn(Async.run(() -> ethGetTransactionReceipt));
-		when(web3j.platonGetTransactionReceipt(TRANSACTION_HASH)).thenReturn((Request) getTransactionReceiptRequest);
+		when(web3j.platoneGetTransactionReceipt(TRANSACTION_HASH)).thenReturn((Request) getTransactionReceiptRequest);
 
 		testErrorScenario();
 	}
@@ -381,12 +381,12 @@ public class ContractTest extends ManagedTransactionTester {
 
 	@SuppressWarnings("unchecked")
 	private void prepareEthGetCode(String binary) throws IOException {
-		PlatonGetCode ethGetCode = new PlatonGetCode();
+		PlatoneGetCode ethGetCode = new PlatoneGetCode();
 		ethGetCode.setResult(Numeric.prependHexPrefix(binary));
 
-		Request<?, PlatonGetCode> ethGetCodeRequest = mock(Request.class);
+		Request<?, PlatoneGetCode> ethGetCodeRequest = mock(Request.class);
 		when(ethGetCodeRequest.send()).thenReturn(ethGetCode);
-		when(web3j.platonGetCode(ADDRESS, DefaultBlockParameterName.LATEST)).thenReturn((Request) ethGetCodeRequest);
+		when(web3j.platoneGetCode(ADDRESS, DefaultBlockParameterName.LATEST)).thenReturn((Request) ethGetCodeRequest);
 	}
 
 	private static class TestContract extends Contract {

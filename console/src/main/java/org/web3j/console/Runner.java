@@ -12,7 +12,7 @@ import org.web3j.codegen.WasmFunctionWrapperGenerator;
  */
 public class Runner {
 
-	private static String USAGE = "Usage: platon-web3j version|wallet|solidity|truffle|wasm ...";
+	private static String USAGE = "Usage: platone-web3j version|wallet|solidity|truffle|wasm ...";
 
 	// generate by http://patorjk.com/software/taag
 	private static String LOGO = " ____  _        _  _____ ___  _   _\n" 

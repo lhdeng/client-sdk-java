@@ -19,7 +19,7 @@ import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.utils.Numeric;
 
-import com.platon.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.Bech32;
 
 public class BaseTest {
 	static final String URL = "http://127.0.0.1:6789";

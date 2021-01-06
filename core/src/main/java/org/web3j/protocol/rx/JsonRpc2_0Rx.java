@@ -19,8 +19,8 @@ import org.web3j.protocol.core.DefaultBlockParameterNumber;
 import org.web3j.protocol.core.filters.BlockFilter;
 import org.web3j.protocol.core.filters.LogFilter;
 import org.web3j.protocol.core.filters.PendingTransactionFilter;
-import org.web3j.protocol.core.methods.request.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonBlock;
+import org.web3j.protocol.core.methods.request.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneBlock;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.utils.Observables;
@@ -58,7 +58,7 @@ public class JsonRpc2_0Rx {
     }
 
     public Observable<Log> ethLogObservable(
-            PlatonFilter ethFilter, long pollingInterval) {
+            PlatoneFilter ethFilter, long pollingInterval) {
         return Observable.create((Subscriber<? super Log> subscriber) -> {
             LogFilter logFilter = new LogFilter(
                     web3j, subscriber::onNext, ethFilter);
@@ -83,25 +83,25 @@ public class JsonRpc2_0Rx {
     public Observable<Transaction> pendingTransactionObservable(long pollingInterval) {
         return ethPendingTransactionHashObservable(pollingInterval)
                 .flatMap(transactionHash ->
-                        web3j.platonGetTransactionByHash(transactionHash).observable())
+                        web3j.platoneGetTransactionByHash(transactionHash).observable())
                 .filter(ethTransaction -> ethTransaction.getTransaction().isPresent())
                 .map(ethTransaction -> ethTransaction.getTransaction().get());
     }
 
-    public Observable<PlatonBlock> blockObservable(
+    public Observable<PlatoneBlock> blockObservable(
             boolean fullTransactionObjects, long pollingInterval) {
         return ethBlockHashObservable(pollingInterval)
                 .flatMap(blockHash ->
-                        web3j.platonGetBlockByHash(blockHash, fullTransactionObjects).observable());
+                        web3j.platoneGetBlockByHash(blockHash, fullTransactionObjects).observable());
     }
 
-    public Observable<PlatonBlock> replayBlocksObservable(
+    public Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects) {
         return replayBlocksObservable(startBlock, endBlock, fullTransactionObjects, true);
     }
 
-    public Observable<PlatonBlock> replayBlocksObservable(
+    public Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects, boolean ascending) {
         // We use a scheduler to ensure this Observable runs asynchronously for users to be
@@ -110,13 +110,13 @@ public class JsonRpc2_0Rx {
                 .subscribeOn(scheduler);
     }
 
-    private Observable<PlatonBlock> replayBlocksObservableSync(
+    private Observable<PlatoneBlock> replayBlocksObservableSync(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects) {
         return replayBlocksObservableSync(startBlock, endBlock, fullTransactionObjects, true);
     }
 
-    private Observable<PlatonBlock> replayBlocksObservableSync(
+    private Observable<PlatoneBlock> replayBlocksObservableSync(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects, boolean ascending) {
 
@@ -131,12 +131,12 @@ public class JsonRpc2_0Rx {
 
         if (ascending) {
             return Observables.range(startBlockNumber, endBlockNumber)
-                    .flatMap(i -> web3j.platonGetBlockByNumber(
+                    .flatMap(i -> web3j.platoneGetBlockByNumber(
                             new DefaultBlockParameterNumber(i),
                             fullTransactionObjects).observable());
         } else {
             return Observables.range(startBlockNumber, endBlockNumber, false)
-                    .flatMap(i -> web3j.platonGetBlockByNumber(
+                    .flatMap(i -> web3j.platoneGetBlockByNumber(
                             new DefaultBlockParameterNumber(i),
                             fullTransactionObjects).observable());
         }
@@ -148,9 +148,9 @@ public class JsonRpc2_0Rx {
                 .flatMapIterable(JsonRpc2_0Rx::toTransactions);
     }
 
-    public Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    public Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
-            Observable<PlatonBlock> onCompleteObservable) {
+            Observable<PlatoneBlock> onCompleteObservable) {
         // We use a scheduler to ensure this Observable runs asynchronously for users to be
         // consistent with the other Observables
         return catchUpToLatestBlockObservableSync(
@@ -158,15 +158,15 @@ public class JsonRpc2_0Rx {
                 .subscribeOn(scheduler);
     }
 
-    public Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    public Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects) {
         return catchUpToLatestBlockObservable(
                 startBlock, fullTransactionObjects, Observable.empty());
     }
 
-    private Observable<PlatonBlock> catchUpToLatestBlockObservableSync(
+    private Observable<PlatoneBlock> catchUpToLatestBlockObservableSync(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
-            Observable<PlatonBlock> onCompleteObservable) {
+            Observable<PlatoneBlock> onCompleteObservable) {
 
         BigInteger startBlockNumber;
         BigInteger latestBlockNumber;
@@ -199,7 +199,7 @@ public class JsonRpc2_0Rx {
                 .flatMapIterable(JsonRpc2_0Rx::toTransactions);
     }
 
-    public Observable<PlatonBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
+    public Observable<PlatoneBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
             long pollingInterval) {
 
@@ -224,13 +224,13 @@ public class JsonRpc2_0Rx {
         if (defaultBlockParameter instanceof DefaultBlockParameterNumber) {
             return ((DefaultBlockParameterNumber) defaultBlockParameter).getBlockNumber();
         } else {
-            PlatonBlock latestEthBlock = web3j.platonGetBlockByNumber(
+            PlatoneBlock latestEthBlock = web3j.platoneGetBlockByNumber(
                     defaultBlockParameter, false).send();
             return latestEthBlock.getBlock().getNumber();
         }
     }
 
-    private static List<Transaction> toTransactions(PlatonBlock ethBlock) {
+    private static List<Transaction> toTransactions(PlatoneBlock ethBlock) {
         // If you ever see an exception thrown here, it's probably due to an incomplete chain in
         // Geth/Parity. You should resync to solve.
         return ethBlock.getBlock().getTransactions().stream()

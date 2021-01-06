@@ -19,9 +19,9 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonLog;
-import org.web3j.protocol.core.methods.response.PlatonUninstallFilter;
+import org.web3j.protocol.core.methods.response.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneLog;
+import org.web3j.protocol.core.methods.response.PlatoneUninstallFilter;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -47,21 +47,21 @@ public abstract class FilterTester {
         web3j = Web3j.build(web3jService, 1000, scheduledExecutorService);
     }
 
-    <T> void runTest(PlatonLog ethLog, Observable<T> observable) throws Exception {
-        PlatonFilter ethFilter = objectMapper.readValue(
+    <T> void runTest(PlatoneLog ethLog, Observable<T> observable) throws Exception {
+        PlatoneFilter ethFilter = objectMapper.readValue(
                 "{\n"
                         + "  \"id\":1,\n"
                         + "  \"jsonrpc\": \"2.0\",\n"
                         + "  \"result\": \"0x1\"\n"
-                        + "}", PlatonFilter.class);
+                        + "}", PlatoneFilter.class);
 
-        PlatonUninstallFilter ethUninstallFilter = objectMapper.readValue(
-                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", PlatonUninstallFilter.class);
+        PlatoneUninstallFilter ethUninstallFilter = objectMapper.readValue(
+                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", PlatoneUninstallFilter.class);
 
-        PlatonLog notFoundFilter = objectMapper.readValue(
+        PlatoneLog notFoundFilter = objectMapper.readValue(
                 "{\"jsonrpc\":\"2.0\",\"id\":1,"
                 + "\"error\":{\"code\":-32000,\"message\":\"filter not found\"}}",
-                PlatonLog.class);
+                PlatoneLog.class);
 
         @SuppressWarnings("unchecked")
         List<T> expected = createExpected(ethLog);
@@ -71,11 +71,11 @@ public abstract class FilterTester {
 
         CountDownLatch completedLatch = new CountDownLatch(1);
 
-        when(web3jService.send(any(Request.class), eq(PlatonFilter.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneFilter.class)))
                 .thenReturn(ethFilter);
-        when(web3jService.send(any(Request.class), eq(PlatonLog.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneLog.class)))
             .thenReturn(ethLog).thenReturn(notFoundFilter).thenReturn(ethLog);
-        when(web3jService.send(any(Request.class), eq(PlatonUninstallFilter.class)))
+        when(web3jService.send(any(Request.class), eq(PlatoneUninstallFilter.class)))
                 .thenReturn(ethUninstallFilter);
 
         Subscription subscription = observable.subscribe(
@@ -95,8 +95,8 @@ public abstract class FilterTester {
         assertTrue(subscription.isUnsubscribed());
     }
 
-    List createExpected(PlatonLog ethLog) {
-        List<PlatonLog.LogResult> logResults = ethLog.getLogs();
+    List createExpected(PlatoneLog ethLog) {
+        List<PlatoneLog.LogResult> logResults = ethLog.getLogs();
         if (logResults.isEmpty()) {
             fail("Results cannot be empty");
         }

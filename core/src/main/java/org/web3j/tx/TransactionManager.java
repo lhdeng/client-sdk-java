@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.tx.response.PollingTransactionReceiptProcessor;
@@ -46,16 +46,16 @@ public abstract class TransactionManager {
             String data, BigInteger value)
             throws IOException, TransactionException {
 
-        PlatonSendTransaction ethSendTransaction = sendTransaction(
+        PlatoneSendTransaction ethSendTransaction = sendTransaction(
                 gasPrice, gasLimit, to, data, value);
         return processResponse(ethSendTransaction);
     }
 
-    protected TransactionReceipt getTransactionReceipt(PlatonSendTransaction ethSendTransaction) throws IOException, TransactionException {
+    protected TransactionReceipt getTransactionReceipt(PlatoneSendTransaction ethSendTransaction) throws IOException, TransactionException {
         return processResponse(ethSendTransaction);
     }
 
-    public abstract PlatonSendTransaction sendTransaction(
+    public abstract PlatoneSendTransaction sendTransaction(
             BigInteger gasPrice, BigInteger gasLimit, String to,
             String data, BigInteger value)
             throws IOException;
@@ -64,7 +64,7 @@ public abstract class TransactionManager {
         return fromAddress;
     }
 
-    private TransactionReceipt processResponse(PlatonSendTransaction transactionResponse)
+    private TransactionReceipt processResponse(PlatoneSendTransaction transactionResponse)
             throws IOException, TransactionException {
         if (transactionResponse.hasError()) {
             throw new RuntimeException("Error processing transaction request: "

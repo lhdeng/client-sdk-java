@@ -14,7 +14,7 @@ import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.JsonRpc2_0Web3j;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
 
 /**
  * JSON-RPC 2.0 factory implementation for common Parity and Geth.
@@ -80,13 +80,13 @@ public class JsonRpc2_0Admin extends JsonRpc2_0Web3j implements Admin {
     }
     
     @Override
-    public Request<?, PlatonSendTransaction> personalSendTransaction(
+    public Request<?, PlatoneSendTransaction> personalSendTransaction(
             Transaction transaction, String passphrase) {
         return new Request<>(
                 "personal_sendTransaction",
                 Arrays.asList(transaction, passphrase),
                 web3jService,
-                PlatonSendTransaction.class);
+                PlatoneSendTransaction.class);
     }
     
 }

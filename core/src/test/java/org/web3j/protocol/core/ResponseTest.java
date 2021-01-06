@@ -34,7 +34,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
         assertTrue(ethBlock.hasError());
         assertThat(ethBlock.getError(), equalTo(
                 new Response.Error(-32602, "Invalid address length, expected 40 got 64 bytes")));
@@ -54,7 +54,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
         assertTrue(ethBlock.hasError());
         assertThat(ethBlock.getError().getData(), equalTo("{\"foo\":\"bar\"}"));
     }
@@ -141,7 +141,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonProtocolVersion ethProtocolVersion = deserialiseResponse(PlatonProtocolVersion.class);
+        PlatoneProtocolVersion ethProtocolVersion = deserialiseResponse(PlatoneProtocolVersion.class);
         assertThat(ethProtocolVersion.getProtocolVersion(), is("54"));
     }
 
@@ -165,10 +165,10 @@ public class ResponseTest extends ResponseTester {
         // \"highestBlock\":\"0x21dab4\",\"knownStates\":\"0x0\",\"pulledStates\":\"0x0\",
         // \"startingBlock\":\"0xa51\"}}"
 
-        PlatonSyncing ethSyncing = deserialiseResponse(PlatonSyncing.class);
+        PlatoneSyncing ethSyncing = deserialiseResponse(PlatoneSyncing.class);
 
         assertThat(ethSyncing.getResult(),
-                equalTo(new PlatonSyncing.Syncing("0x384", "0x386", "0x454", null, null)));
+                equalTo(new PlatoneSyncing.Syncing("0x384", "0x386", "0x454", null, null)));
     }
 
     @Test
@@ -181,7 +181,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonSyncing ethSyncing = deserialiseResponse(PlatonSyncing.class);
+        PlatoneSyncing ethSyncing = deserialiseResponse(PlatoneSyncing.class);
         assertThat(ethSyncing.isSyncing(), is(false));
     }
 
@@ -195,7 +195,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGasPrice ethGasPrice = deserialiseResponse(PlatonGasPrice.class);
+        PlatoneGasPrice ethGasPrice = deserialiseResponse(PlatoneGasPrice.class);
         assertThat(ethGasPrice.getGasPrice(), equalTo(BigInteger.valueOf(10000000000000L)));
     }
 
@@ -209,7 +209,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonAccounts ethAccounts = deserialiseResponse(PlatonAccounts.class);
+        PlatoneAccounts ethAccounts = deserialiseResponse(PlatoneAccounts.class);
         assertThat(ethAccounts.getAccounts(),
                 equalTo(Arrays.asList("0x407d73d8a49eeb85d32cf465507dd71d507100c1")));
     }
@@ -224,7 +224,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonBlockNumber ethBlockNumber = deserialiseResponse(PlatonBlockNumber.class);
+        PlatoneBlockNumber ethBlockNumber = deserialiseResponse(PlatoneBlockNumber.class);
         assertThat(ethBlockNumber.getBlockNumber(), equalTo(BigInteger.valueOf(1207L)));
     }
 
@@ -238,7 +238,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetBalance ethGetBalance = deserialiseResponse(PlatonGetBalance.class);
+        PlatoneGetBalance ethGetBalance = deserialiseResponse(PlatoneGetBalance.class);
         assertThat(ethGetBalance.getBalance(), equalTo(BigInteger.valueOf(158972490234375000L)));
     }
 
@@ -253,7 +253,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetStorageAt ethGetStorageAt = deserialiseResponse(PlatonGetStorageAt.class);
+        PlatoneGetStorageAt ethGetStorageAt = deserialiseResponse(PlatoneGetStorageAt.class);
         assertThat(ethGetStorageAt.getResult(),
                 is("0x000000000000000000000000000000000000000000000000000000000000162e"));
     }
@@ -268,8 +268,8 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetTransactionCount ethGetTransactionCount =
-                deserialiseResponse((PlatonGetTransactionCount.class));
+        PlatoneGetTransactionCount ethGetTransactionCount =
+                deserialiseResponse((PlatoneGetTransactionCount.class));
         assertThat(ethGetTransactionCount.getTransactionCount(), equalTo(BigInteger.valueOf(1L)));
     }
 
@@ -283,8 +283,8 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetBlockTransactionCountByHash ethGetBlockTransactionCountByHash =
-                deserialiseResponse(PlatonGetBlockTransactionCountByHash.class);
+        PlatoneGetBlockTransactionCountByHash ethGetBlockTransactionCountByHash =
+                deserialiseResponse(PlatoneGetBlockTransactionCountByHash.class);
         assertThat(ethGetBlockTransactionCountByHash.getTransactionCount(),
                 equalTo(BigInteger.valueOf(11)));
     }
@@ -299,8 +299,8 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetBlockTransactionCountByNumber ethGetBlockTransactionCountByNumber =
-                deserialiseResponse(PlatonGetBlockTransactionCountByNumber.class);
+        PlatoneGetBlockTransactionCountByNumber ethGetBlockTransactionCountByNumber =
+                deserialiseResponse(PlatoneGetBlockTransactionCountByNumber.class);
         assertThat(ethGetBlockTransactionCountByNumber.getTransactionCount(),
                 equalTo(BigInteger.valueOf(10)));
     }
@@ -316,7 +316,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonGetCode ethGetCode = deserialiseResponse(PlatonGetCode.class);
+        PlatoneGetCode ethGetCode = deserialiseResponse(PlatoneGetCode.class);
         assertThat(ethGetCode.getCode(),
                 is("0x600160008035811a818181146012578301005b601b60013560255"
                         + "65b8060005260206000f25b600060078202905091905056"));
@@ -334,7 +334,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonSign ethSign = deserialiseResponse(PlatonSign.class);
+        PlatoneSign ethSign = deserialiseResponse(PlatoneSign.class);
         assertThat(ethSign.getSignature(),
                 is("0xbd685c98ec39490f50d15c67ba2a8e9b5b1d6d7601fca80b295e7d717446bd8b7127ea4871e9"
                         + "96cdc8cae7690408b4e800f60ddac49d2ad34180e68f1da0aaf001"));
@@ -351,7 +351,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonSendTransaction ethSendTransaction = deserialiseResponse(PlatonSendTransaction.class);
+        PlatoneSendTransaction ethSendTransaction = deserialiseResponse(PlatoneSendTransaction.class);
         assertThat(ethSendTransaction.getTransactionHash(),
                 is("0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"));
     }
@@ -367,8 +367,8 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonSendRawTransaction ethSendRawTransaction =
-                deserialiseResponse(PlatonSendRawTransaction.class);
+        PlatoneSendRawTransaction ethSendRawTransaction =
+                deserialiseResponse(PlatoneSendRawTransaction.class);
         assertThat(ethSendRawTransaction.getTransactionHash(),
                 is("0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"));
     }
@@ -383,7 +383,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonCall ethCall = deserialiseResponse(PlatonCall.class);
+        PlatoneCall ethCall = deserialiseResponse(PlatoneCall.class);
         assertThat(ethCall.getValue(), is("0x"));
     }
 
@@ -397,7 +397,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonEstimateGas ethEstimateGas = deserialiseResponse(PlatonEstimateGas.class);
+        PlatoneEstimateGas ethEstimateGas = deserialiseResponse(PlatoneEstimateGas.class);
         assertThat(ethEstimateGas.getAmountUsed(), equalTo(BigInteger.valueOf(21000)));
     }
 
@@ -445,8 +445,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
-        PlatonBlock.Block block = new PlatonBlock.Block(
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
+        PlatoneBlock.Block block = new PlatoneBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -467,10 +467,10 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x54e34e8e",
                 Arrays.asList(
-                        new PlatonBlock.TransactionHash(
+                        new PlatoneBlock.TransactionHash(
                                 "0xe670ec64341771606e55d6b4ca35a1a6b"
                                         + "75ee3d5145a99d05921026d1527331"),
-                        new PlatonBlock.TransactionHash(
+                        new PlatoneBlock.TransactionHash(
                                 "0xd5855eb08b3387c0af375e9cdb6acfc05eb8f519e419b874b6ff2ffda7ed1df")
                 ),
                 Arrays.asList(
@@ -544,8 +544,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
-        PlatonBlock.Block block = new PlatonBlock.Block(
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
+        PlatoneBlock.Block block = new PlatoneBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -566,7 +566,7 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x54e34e8e",
                 //CHECKSTYLE:OFF
-                Arrays.asList(new PlatonBlock.TransactionObject(
+                Arrays.asList(new PlatoneBlock.TransactionObject(
                                 "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
                                 "0x",
                                 "0xbeab0aa2411b7ab17f30a99d3cb9c6ef2fc5426d6ad6fd9e2a26a6aed1d1055b",
@@ -659,8 +659,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
-        PlatonBlock.Block block = new PlatonBlock.Block(
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
+        PlatoneBlock.Block block = new PlatoneBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -681,7 +681,7 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x54e34e8e",
                 //CHECKSTYLE:OFF
-                Arrays.asList(new PlatonBlock.TransactionObject(
+                Arrays.asList(new PlatoneBlock.TransactionObject(
                                 "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
                                 "0x",
                                 "0xbeab0aa2411b7ab17f30a99d3cb9c6ef2fc5426d6ad6fd9e2a26a6aed1d1055b",
@@ -722,7 +722,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonBlock ethBlock = deserialiseResponse(PlatonBlock.class);
+        PlatoneBlock ethBlock = deserialiseResponse(PlatoneBlock.class);
         assertNull(ethBlock.getBlock());
     }
 
@@ -775,7 +775,7 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        PlatonTransaction ethTransaction = deserialiseResponse(PlatonTransaction.class);
+        PlatoneTransaction ethTransaction = deserialiseResponse(PlatoneTransaction.class);
         assertThat(ethTransaction.getTransaction().get(), equalTo(transaction));
     }
 
@@ -802,7 +802,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonTransaction ethTransaction = deserialiseResponse(PlatonTransaction.class);
+        PlatoneTransaction ethTransaction = deserialiseResponse(PlatoneTransaction.class);
         assertThat(ethTransaction.getTransaction(), is(Optional.empty()));
     }
 
@@ -875,8 +875,8 @@ public class ResponseTest extends ResponseTester {
                 );
         //CHECKSTYLE:ON
 
-        PlatonGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
-                PlatonGetTransactionReceipt.class);
+        PlatoneGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
+                PlatoneGetTransactionReceipt.class);
         assertThat(ethGetTransactionReceipt.getTransactionReceipt().get(),
                 equalTo(transactionReceipt));
     }
@@ -950,8 +950,8 @@ public class ResponseTest extends ResponseTester {
                 );
         //CHECKSTYLE:ON
 
-        PlatonGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
-                PlatonGetTransactionReceipt.class);
+        PlatoneGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
+                PlatoneGetTransactionReceipt.class);
         assertThat(ethGetTransactionReceipt.getTransactionReceipt().get(),
                 equalTo(transactionReceipt));
     }
@@ -980,7 +980,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonFilter ethFilter = deserialiseResponse(PlatonFilter.class);
+        PlatoneFilter ethFilter = deserialiseResponse(PlatoneFilter.class);
         assertThat(ethFilter.getFilterId(), is(BigInteger.valueOf(1)));
     }
 
@@ -994,7 +994,7 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        PlatonUninstallFilter ethUninstallFilter = deserialiseResponse(PlatonUninstallFilter.class);
+        PlatoneUninstallFilter ethUninstallFilter = deserialiseResponse(PlatoneUninstallFilter.class);
         assertThat(ethUninstallFilter.isUninstalled(), is(true));
     }
 
@@ -1022,7 +1022,7 @@ public class ResponseTest extends ResponseTester {
         //CHECKSTYLE:ON
 
         List<Log> logs = Collections.singletonList(
-                new PlatonLog.LogObject(
+                new PlatoneLog.LogObject(
                         false,
                         "0x1",
                         "0x0",
@@ -1038,7 +1038,7 @@ public class ResponseTest extends ResponseTester {
                 )
         );
 
-        PlatonLog ethLog = deserialiseResponse(PlatonLog.class);
+        PlatoneLog ethLog = deserialiseResponse(PlatoneLog.class);
         assertThat(ethLog.getLogs(), is(logs));
     }
 

@@ -15,8 +15,8 @@ import org.bouncycastle.math.ec.custom.sec.SecP256K1Curve;
 
 import org.web3j.utils.Numeric;
 
-import com.platon.sm.SM2Utils;
-import com.platon.sm.SM3Utils;
+import com.platone.sm.SM2Utils;
+import com.platone.sm.SM3Utils;
 
 import static org.web3j.utils.Assertions.verifyPrecondition;
 

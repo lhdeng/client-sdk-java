@@ -2,12 +2,13 @@ package org.web3j.crypto;
 
 import java.math.BigInteger;
 
-import com.platon.sdk.utlis.Bech32;
-import com.platon.sdk.utlis.NetworkParameters;
 import org.web3j.rlp.RlpDecoder;
 import org.web3j.rlp.RlpList;
 import org.web3j.rlp.RlpString;
 import org.web3j.utils.Numeric;
+
+import com.platone.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.NetworkParameters;
 
 public class TransactionDecoder {
 

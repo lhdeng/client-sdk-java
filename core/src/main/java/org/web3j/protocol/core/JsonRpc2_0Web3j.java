@@ -25,30 +25,30 @@ import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.NetListening;
 import org.web3j.protocol.core.methods.response.NetPeerCount;
 import org.web3j.protocol.core.methods.response.NetVersion;
-import org.web3j.protocol.core.methods.response.PlatonAccounts;
-import org.web3j.protocol.core.methods.response.PlatonBlock;
-import org.web3j.protocol.core.methods.response.PlatonBlockNumber;
-import org.web3j.protocol.core.methods.response.PlatonCall;
-import org.web3j.protocol.core.methods.response.PlatonEstimateGas;
-import org.web3j.protocol.core.methods.response.PlatonEvidences;
-import org.web3j.protocol.core.methods.response.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonGasPrice;
-import org.web3j.protocol.core.methods.response.PlatonGetBalance;
-import org.web3j.protocol.core.methods.response.PlatonGetBlockTransactionCountByHash;
-import org.web3j.protocol.core.methods.response.PlatonGetBlockTransactionCountByNumber;
-import org.web3j.protocol.core.methods.response.PlatonGetCode;
-import org.web3j.protocol.core.methods.response.PlatonGetStorageAt;
-import org.web3j.protocol.core.methods.response.PlatonGetTransactionCount;
-import org.web3j.protocol.core.methods.response.PlatonGetTransactionReceipt;
-import org.web3j.protocol.core.methods.response.PlatonLog;
-import org.web3j.protocol.core.methods.response.PlatonPendingTransactions;
-import org.web3j.protocol.core.methods.response.PlatonProtocolVersion;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
-import org.web3j.protocol.core.methods.response.PlatonSign;
-import org.web3j.protocol.core.methods.response.PlatonSubscribe;
-import org.web3j.protocol.core.methods.response.PlatonSyncing;
-import org.web3j.protocol.core.methods.response.PlatonTransaction;
-import org.web3j.protocol.core.methods.response.PlatonUninstallFilter;
+import org.web3j.protocol.core.methods.response.PlatoneAccounts;
+import org.web3j.protocol.core.methods.response.PlatoneBlock;
+import org.web3j.protocol.core.methods.response.PlatoneBlockNumber;
+import org.web3j.protocol.core.methods.response.PlatoneCall;
+import org.web3j.protocol.core.methods.response.PlatoneEstimateGas;
+import org.web3j.protocol.core.methods.response.PlatoneEvidences;
+import org.web3j.protocol.core.methods.response.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneGasPrice;
+import org.web3j.protocol.core.methods.response.PlatoneGetBalance;
+import org.web3j.protocol.core.methods.response.PlatoneGetBlockTransactionCountByHash;
+import org.web3j.protocol.core.methods.response.PlatoneGetBlockTransactionCountByNumber;
+import org.web3j.protocol.core.methods.response.PlatoneGetCode;
+import org.web3j.protocol.core.methods.response.PlatoneGetStorageAt;
+import org.web3j.protocol.core.methods.response.PlatoneGetTransactionCount;
+import org.web3j.protocol.core.methods.response.PlatoneGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.PlatoneLog;
+import org.web3j.protocol.core.methods.response.PlatonePendingTransactions;
+import org.web3j.protocol.core.methods.response.PlatoneProtocolVersion;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneSign;
+import org.web3j.protocol.core.methods.response.PlatoneSubscribe;
+import org.web3j.protocol.core.methods.response.PlatoneSyncing;
+import org.web3j.protocol.core.methods.response.PlatoneTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneUninstallFilter;
 import org.web3j.protocol.core.methods.response.ShhAddToGroup;
 import org.web3j.protocol.core.methods.response.ShhHasIdentity;
 import org.web3j.protocol.core.methods.response.ShhMessages;
@@ -138,62 +138,62 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Request<?, PlatonProtocolVersion> platonProtocolVersion() {
+    public Request<?, PlatoneProtocolVersion> platoneProtocolVersion() {
         return new Request<>(
                 "platon_protocolVersion",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonProtocolVersion.class);
+                PlatoneProtocolVersion.class);
     }
 
     @Override
-    public Request<?, PlatonSyncing> platonSyncing() {
+    public Request<?, PlatoneSyncing> platoneSyncing() {
         return new Request<>(
                 "platon_syncing",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonSyncing.class);
+                PlatoneSyncing.class);
     }
 
     @Override
-    public Request<?, PlatonGasPrice> platonGasPrice() {
+    public Request<?, PlatoneGasPrice> platoneGasPrice() {
         return new Request<>(
                 "platon_gasPrice",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonGasPrice.class);
+                PlatoneGasPrice.class);
     }
 
     @Override
-    public Request<?, PlatonAccounts> platonAccounts() {
+    public Request<?, PlatoneAccounts> platoneAccounts() {
         return new Request<>(
                 "platon_accounts",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonAccounts.class);
+                PlatoneAccounts.class);
     }
 
     @Override
-    public Request<?, PlatonBlockNumber> platonBlockNumber() {
+    public Request<?, PlatoneBlockNumber> platoneBlockNumber() {
         return new Request<>(
                 "platon_blockNumber",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonBlockNumber.class);
+                PlatoneBlockNumber.class);
     }
 
     @Override
-    public Request<?, PlatonGetBalance> platonGetBalance(
+    public Request<?, PlatoneGetBalance> platoneGetBalance(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_getBalance",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 web3jService,
-                PlatonGetBalance.class);
+                PlatoneGetBalance.class);
     }
 
     @Override
-    public Request<?, PlatonGetStorageAt> platonGetStorageAt(
+    public Request<?, PlatoneGetStorageAt> platoneGetStorageAt(
             String address, BigInteger position, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_getStorageAt",
@@ -202,101 +202,101 @@ public class JsonRpc2_0Web3j implements Web3j {
                         Numeric.encodeQuantity(position),
                         defaultBlockParameter.getValue()),
                 web3jService,
-                PlatonGetStorageAt.class);
+                PlatoneGetStorageAt.class);
     }
 
     @Override
-    public Request<?, PlatonGetTransactionCount> platonGetTransactionCount(
+    public Request<?, PlatoneGetTransactionCount> platoneGetTransactionCount(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_getTransactionCount",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 web3jService,
-                PlatonGetTransactionCount.class);
+                PlatoneGetTransactionCount.class);
     }
 
     @Override
-    public Request<?, PlatonGetBlockTransactionCountByHash> platonGetBlockTransactionCountByHash(
+    public Request<?, PlatoneGetBlockTransactionCountByHash> platoneGetBlockTransactionCountByHash(
             String blockHash) {
         return new Request<>(
                 "platon_getBlockTransactionCountByHash",
                 Arrays.asList(blockHash),
                 web3jService,
-                PlatonGetBlockTransactionCountByHash.class);
+                PlatoneGetBlockTransactionCountByHash.class);
     }
 
     @Override
-    public Request<?, PlatonGetBlockTransactionCountByNumber> platonGetBlockTransactionCountByNumber(
+    public Request<?, PlatoneGetBlockTransactionCountByNumber> platoneGetBlockTransactionCountByNumber(
             DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_getBlockTransactionCountByNumber",
                 Arrays.asList(defaultBlockParameter.getValue()),
                 web3jService,
-                PlatonGetBlockTransactionCountByNumber.class);
+                PlatoneGetBlockTransactionCountByNumber.class);
     }
 
     @Override
-    public Request<?, PlatonGetCode> platonGetCode(
+    public Request<?, PlatoneGetCode> platoneGetCode(
             String address, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_getCode",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
                 web3jService,
-                PlatonGetCode.class);
+                PlatoneGetCode.class);
     }
 
     @Override
-    public Request<?, PlatonSign> platonSign(String address, String sha3HashOfDataToSign) {
+    public Request<?, PlatoneSign> platoneSign(String address, String sha3HashOfDataToSign) {
         return new Request<>(
                 "platon_sign",
                 Arrays.asList(address, sha3HashOfDataToSign),
                 web3jService,
-                PlatonSign.class);
+                PlatoneSign.class);
     }
 
     @Override
-    public Request<?, PlatonSendTransaction>
-    platonSendTransaction(
+    public Request<?, PlatoneSendTransaction>
+    platoneSendTransaction(
             Transaction transaction) {
         return new Request<>(
                 "platon_sendTransaction",
                 Arrays.asList(transaction),
                 web3jService,
-                PlatonSendTransaction.class);
+                PlatoneSendTransaction.class);
     }
 
     @Override
-    public Request<?, PlatonSendTransaction>
-    platonSendRawTransaction(
+    public Request<?, PlatoneSendTransaction>
+    platoneSendRawTransaction(
             String signedTransactionData) {
         return new Request<>(
                 "platon_sendRawTransaction",
                 Arrays.asList(signedTransactionData),
                 web3jService,
-                PlatonSendTransaction.class);
+                PlatoneSendTransaction.class);
     }
 
     @Override
-    public Request<?, PlatonCall> platonCall(
+    public Request<?, PlatoneCall> platoneCall(
             Transaction transaction, DefaultBlockParameter defaultBlockParameter) {
         return new Request<>(
                 "platon_call",
                 Arrays.asList(transaction, defaultBlockParameter),
                 web3jService,
-                PlatonCall.class);
+                PlatoneCall.class);
     }
 
     @Override
-    public Request<?, PlatonEstimateGas> platonEstimateGas(Transaction transaction) {
+    public Request<?, PlatoneEstimateGas> platoneEstimateGas(Transaction transaction) {
         return new Request<>(
                 "platon_estimateGas",
                 Arrays.asList(transaction),
                 web3jService,
-                PlatonEstimateGas.class);
+                PlatoneEstimateGas.class);
     }
 
     @Override
-    public Request<?, PlatonBlock> platonGetBlockByHash(
+    public Request<?, PlatoneBlock> platoneGetBlockByHash(
             String blockHash, boolean returnFullTransactionObjects) {
         return new Request<>(
                 "platon_getBlockByHash",
@@ -304,11 +304,11 @@ public class JsonRpc2_0Web3j implements Web3j {
                         blockHash,
                         returnFullTransactionObjects),
                 web3jService,
-                PlatonBlock.class);
+                PlatoneBlock.class);
     }
 
     @Override
-    public Request<?, PlatonBlock> platonGetBlockByNumber(
+    public Request<?, PlatoneBlock> platoneGetBlockByNumber(
             DefaultBlockParameter defaultBlockParameter,
             boolean returnFullTransactionObjects) {
         return new Request<>(
@@ -317,31 +317,31 @@ public class JsonRpc2_0Web3j implements Web3j {
                         defaultBlockParameter.getValue(),
                         returnFullTransactionObjects),
                 web3jService,
-                PlatonBlock.class);
+                PlatoneBlock.class);
     }
 
     @Override
-    public Request<?, PlatonTransaction> platonGetTransactionByHash(String transactionHash) {
+    public Request<?, PlatoneTransaction> platoneGetTransactionByHash(String transactionHash) {
         return new Request<>(
                 "platon_getTransactionByHash",
                 Arrays.asList(transactionHash),
                 web3jService,
-                PlatonTransaction.class);
+                PlatoneTransaction.class);
     }
 
 
     @Override
-    public Request<?, PlatonPendingTransactions> platonPendingTx() {
+    public Request<?, PlatonePendingTransactions> platonePendingTx() {
         return new Request<>(
                 "platon_pendingTransactions",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonPendingTransactions.class);
+                PlatonePendingTransactions.class);
     }
 
 
     @Override
-    public Request<?, PlatonTransaction> platonGetTransactionByBlockHashAndIndex(
+    public Request<?, PlatoneTransaction> platoneGetTransactionByBlockHashAndIndex(
             String blockHash, BigInteger transactionIndex) {
         return new Request<>(
                 "platon_getTransactionByBlockHashAndIndex",
@@ -349,11 +349,11 @@ public class JsonRpc2_0Web3j implements Web3j {
                         blockHash,
                         Numeric.encodeQuantity(transactionIndex)),
                 web3jService,
-                PlatonTransaction.class);
+                PlatoneTransaction.class);
     }
 
     @Override
-    public Request<?, PlatonTransaction> platonGetTransactionByBlockNumberAndIndex(
+    public Request<?, PlatoneTransaction> platoneGetTransactionByBlockNumberAndIndex(
             DefaultBlockParameter defaultBlockParameter, BigInteger transactionIndex) {
         return new Request<>(
                 "platon_getTransactionByBlockNumberAndIndex",
@@ -361,81 +361,81 @@ public class JsonRpc2_0Web3j implements Web3j {
                         defaultBlockParameter.getValue(),
                         Numeric.encodeQuantity(transactionIndex)),
                 web3jService,
-                PlatonTransaction.class);
+                PlatoneTransaction.class);
     }
 
     @Override
-    public Request<?, PlatonGetTransactionReceipt> platonGetTransactionReceipt(String transactionHash) {
+    public Request<?, PlatoneGetTransactionReceipt> platoneGetTransactionReceipt(String transactionHash) {
         return new Request<>(
                 "platon_getTransactionReceipt",
                 Arrays.asList(transactionHash),
                 web3jService,
-                PlatonGetTransactionReceipt.class);
+                PlatoneGetTransactionReceipt.class);
     }
 
     @Override
-    public Request<?, PlatonFilter> platonNewFilter(
-            org.web3j.protocol.core.methods.request.PlatonFilter platonFilter) {
+    public Request<?, PlatoneFilter> platoneNewFilter(
+            org.web3j.protocol.core.methods.request.PlatoneFilter platonFilter) {
         return new Request<>(
                 "platon_newFilter",
                 Arrays.asList(platonFilter),
                 web3jService,
-                PlatonFilter.class);
+                PlatoneFilter.class);
     }
 
     @Override
-    public Request<?, PlatonFilter> platonNewBlockFilter() {
+    public Request<?, PlatoneFilter> platoneNewBlockFilter() {
         return new Request<>(
                 "platon_newBlockFilter",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonFilter.class);
+                PlatoneFilter.class);
     }
 
     @Override
-    public Request<?, PlatonFilter> platonNewPendingTransactionFilter() {
+    public Request<?, PlatoneFilter> platoneNewPendingTransactionFilter() {
         return new Request<>(
                 "platon_newPendingTransactionFilter",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonFilter.class);
+                PlatoneFilter.class);
     }
 
     @Override
-    public Request<?, PlatonUninstallFilter> platonUninstallFilter(BigInteger filterId) {
+    public Request<?, PlatoneUninstallFilter> platoneUninstallFilter(BigInteger filterId) {
         return new Request<>(
                 "platon_uninstallFilter",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 web3jService,
-                PlatonUninstallFilter.class);
+                PlatoneUninstallFilter.class);
     }
 
     @Override
-    public Request<?, PlatonLog> platonGetFilterChanges(BigInteger filterId) {
+    public Request<?, PlatoneLog> platoneGetFilterChanges(BigInteger filterId) {
         return new Request<>(
                 "platon_getFilterChanges",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 web3jService,
-                PlatonLog.class);
+                PlatoneLog.class);
     }
 
     @Override
-    public Request<?, PlatonLog> platonGetFilterLogs(BigInteger filterId) {
+    public Request<?, PlatoneLog> platoneGetFilterLogs(BigInteger filterId) {
         return new Request<>(
                 "platon_getFilterLogs",
                 Arrays.asList(Numeric.toHexStringWithPrefixSafe(filterId)),
                 web3jService,
-                PlatonLog.class);
+                PlatoneLog.class);
     }
 
     @Override
-    public Request<?, PlatonLog> platonGetLogs(
-            org.web3j.protocol.core.methods.request.PlatonFilter platonFilter) {
+    public Request<?, PlatoneLog> platoneGetLogs(
+            org.web3j.protocol.core.methods.request.PlatoneFilter platonFilter) {
         return new Request<>(
                 "platon_getLogs",
                 Arrays.asList(platonFilter),
                 web3jService,
-                PlatonLog.class);
+                PlatoneLog.class);
     }
 
     @Override
@@ -572,7 +572,7 @@ public class JsonRpc2_0Web3j implements Web3j {
                         "platon_subscribe",
                         Collections.singletonList("newHeads"),
                         web3jService,
-                        PlatonSubscribe.class),
+                        PlatoneSubscribe.class),
                 "platon_unsubscribe",
                 NewHeadsNotification.class
         );
@@ -589,7 +589,7 @@ public class JsonRpc2_0Web3j implements Web3j {
                         "platon_subscribe",
                         Arrays.asList("logs", params),
                         web3jService,
-                        PlatonSubscribe.class),
+                        PlatoneSubscribe.class),
                 "platon_unsubscribe",
                 LogNotification.class
         );
@@ -607,18 +607,18 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Observable<String> platonBlockHashObservable() {
+    public Observable<String> platoneBlockHashObservable() {
         return web3jRx.ethBlockHashObservable(blockTime);
     }
 
     @Override
-    public Observable<String> platonPendingTransactionHashObservable() {
+    public Observable<String> platonePendingTransactionHashObservable() {
         return web3jRx.ethPendingTransactionHashObservable(blockTime);
     }
 
     @Override
-    public Observable<Log> platonLogObservable(
-            org.web3j.protocol.core.methods.request.PlatonFilter ethFilter) {
+    public Observable<Log> platoneLogObservable(
+            org.web3j.protocol.core.methods.request.PlatoneFilter ethFilter) {
         return web3jRx.ethLogObservable(ethFilter, blockTime);
     }
 
@@ -635,19 +635,19 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Observable<PlatonBlock> blockObservable(boolean fullTransactionObjects) {
+    public Observable<PlatoneBlock> blockObservable(boolean fullTransactionObjects) {
         return web3jRx.blockObservable(fullTransactionObjects, blockTime);
     }
 
     @Override
-    public Observable<PlatonBlock> replayBlocksObservable(
+    public Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects) {
         return web3jRx.replayBlocksObservable(startBlock, endBlock, fullTransactionObjects);
     }
 
     @Override
-    public Observable<PlatonBlock> replayBlocksObservable(
+    public Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects, boolean ascending) {
         return web3jRx.replayBlocksObservable(startBlock, endBlock,
@@ -662,15 +662,15 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    public Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
-            Observable<PlatonBlock> onCompleteObservable) {
+            Observable<PlatoneBlock> onCompleteObservable) {
         return web3jRx.catchUpToLatestBlockObservable(
                 startBlock, fullTransactionObjects, onCompleteObservable);
     }
 
     @Override
-    public Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    public Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects) {
         return web3jRx.catchUpToLatestBlockObservable(startBlock, fullTransactionObjects);
     }
@@ -682,7 +682,7 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Observable<PlatonBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
+    public Observable<PlatoneBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects) {
         return web3jRx.catchUpToLatestAndSubscribeToNewBlocksObservable(
                 startBlock, fullTransactionObjects, blockTime);
@@ -707,12 +707,12 @@ public class JsonRpc2_0Web3j implements Web3j {
     }
 
     @Override
-    public Request<?, PlatonEvidences> platonEvidences() {
+    public Request<?, PlatoneEvidences> platoneEvidences() {
         return new Request<>(
                 "platon_evidences",
                 Collections.<String>emptyList(),
                 web3jService,
-                PlatonEvidences.class);
+                PlatoneEvidences.class);
     }
 
 	@Override

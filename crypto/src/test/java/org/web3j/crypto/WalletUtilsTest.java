@@ -61,20 +61,20 @@ public class WalletUtilsTest {
 	}
 
 	@Test
-	public void testGeneratePlatONWalletFileByKeyPair() throws Exception {
-		String fileName = WalletUtils.generatePlatONWalletFile(PASSWORD, KEY_PAIR, tempDir);
+	public void testGeneratePlatONEWalletFileByKeyPair() throws Exception {
+		String fileName = WalletUtils.generatePlatONEWalletFile(PASSWORD, KEY_PAIR, tempDir);
 		testGeneratedNewWalletFile(fileName);
 	}
 
 	@Test
-	public void testGeneratePlatONWalletFile() throws Exception {
-		String fileName = WalletUtils.generatePlatONWalletFile(PASSWORD, tempDir);
+	public void testGeneratePlatONEWalletFile() throws Exception {
+		String fileName = WalletUtils.generatePlatONEWalletFile(PASSWORD, tempDir);
 		testGeneratedNewWalletFile(fileName);
 	}
 
 	@Test
-	public void testGeneratePlatONBip39Wallet() throws Exception {
-		Bip39Wallet wallet = WalletUtils.generatePlatONBip39Wallet(PASSWORD, tempDir);
+	public void testGeneratePlatONEBip39Wallet() throws Exception {
+		Bip39Wallet wallet = WalletUtils.generatePlatONEBip39Wallet(PASSWORD, tempDir);
 
 		byte[] seed = MnemonicUtils.generateSeed(wallet.getMnemonic(), PASSWORD);
 		Credentials credentials = Credentials.create(ECKeyPair.create(sha256(seed)));
@@ -105,14 +105,14 @@ public class WalletUtilsTest {
 	}
 
 	@Test
-	public void testGenerateSm2PlatONWalletFile() throws Exception {
-		String fileName = WalletUtils.generateSm2PlatONWalletFile(PASSWORD, tempDir);
+	public void testGenerateSm2PlatONEWalletFile() throws Exception {
+		String fileName = WalletUtils.generateSm2PlatONEWalletFile(PASSWORD, tempDir);
 		testGeneratedSm2NewWalletFile(fileName);
 	}
 
 	@Test
-	public void testGenerateSm2PlatONBip39Wallet() throws Exception {
-		Bip39Wallet wallet = WalletUtils.generateSm2PlatONBip39Wallet(PASSWORD, tempDir);
+	public void testGenerateSm2PlatONEBip39Wallet() throws Exception {
+		Bip39Wallet wallet = WalletUtils.generateSm2PlatONEBip39Wallet(PASSWORD, tempDir);
 
 		byte[] seed = MnemonicUtils.generateSeed(wallet.getMnemonic(), PASSWORD);
 		Credentials credentials = Credentials.create(ECKeyPair.createSm2(sha256(seed)));

@@ -30,7 +30,7 @@ public class RunnerTest extends TempFileProvider {
 
 		String outputPath = tempDirPath;
 		// String outputPath = System.getProperty("user.dir").replace("console", "core") + "/src/test/java/";
-		String packageName = "com.platon.sdk.contracts";
+		String packageName = "com.platone.sdk.contracts";
 
 		String[] params = { "solidity", "generate", binPath, abiPath, "-o", outputPath, "-p", packageName };
 		try {
@@ -54,7 +54,7 @@ public class RunnerTest extends TempFileProvider {
 
 		String outputPath = tempDirPath;
 		// String outputPath = System.getProperty("user.dir").replace("console", "core") + "/src/test/java/";
-		String packageName = "com.platon.sdk.contracts";
+		String packageName = "com.platone.sdk.contracts";
 
 		String[] params = { "wasm", "generate", binPath, abiPath, "-o", outputPath, "-p", packageName };
 		try {

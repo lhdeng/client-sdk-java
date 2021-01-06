@@ -16,8 +16,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.PlatonBlockNumber;
-import org.web3j.protocol.core.methods.response.PlatonSubscribe;
+import org.web3j.protocol.core.methods.response.PlatoneBlockNumber;
+import org.web3j.protocol.core.methods.response.PlatoneSubscribe;
 import org.web3j.protocol.exceptions.ClientConnectionException;
 import org.web3j.protocol.websocket.events.NewHeadsNotification;
 
@@ -76,13 +76,13 @@ public class HttpServiceTest {
                 });
         HttpService mockedHttpService = new HttpService(httpClient);
 
-        Request<String, PlatonBlockNumber> request = new Request<>(
+        Request<String, PlatoneBlockNumber> request = new Request<>(
                 "eth_blockNumber1",
                 Collections.emptyList(),
                 mockedHttpService,
-                PlatonBlockNumber.class);
+                PlatoneBlockNumber.class);
         try {
-            mockedHttpService.send(request, PlatonBlockNumber.class);
+            mockedHttpService.send(request, PlatoneBlockNumber.class);
         } catch (ClientConnectionException e) {
             Assert.assertEquals(
                     e.getMessage(),
@@ -96,11 +96,11 @@ public class HttpServiceTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void subscriptionNotSupported() {
-        Request<Object, PlatonSubscribe> subscribeRequest = new Request<>(
+        Request<Object, PlatoneSubscribe> subscribeRequest = new Request<>(
                 "eth_subscribe",
                 Arrays.asList("newHeads", Collections.emptyMap()),
                 httpService,
-                PlatonSubscribe.class);
+                PlatoneSubscribe.class);
 
         httpService.subscribe(
                 subscribeRequest,

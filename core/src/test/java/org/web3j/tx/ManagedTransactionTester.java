@@ -52,33 +52,33 @@ public abstract class ManagedTransactionTester {
 
 	@SuppressWarnings("unchecked")
 	void prepareNonceRequest() throws IOException {
-		PlatonGetTransactionCount ethGetTransactionCount = new PlatonGetTransactionCount();
+		PlatoneGetTransactionCount ethGetTransactionCount = new PlatoneGetTransactionCount();
 		ethGetTransactionCount.setResult("0x1");
 
-		Request<?, PlatonGetTransactionCount> transactionCountRequest = mock(Request.class);
+		Request<?, PlatoneGetTransactionCount> transactionCountRequest = mock(Request.class);
 		when(transactionCountRequest.send()).thenReturn(ethGetTransactionCount);
-		when(web3j.platonGetTransactionCount(SampleKeys.CREDENTIALS.getAddress(),
+		when(web3j.platoneGetTransactionCount(SampleKeys.CREDENTIALS.getAddress(),
 				DefaultBlockParameterName.PENDING)).thenReturn((Request) transactionCountRequest);
 	}
 
 	@SuppressWarnings("unchecked")
 	void prepareTransactionRequest() throws IOException {
-		PlatonSendTransaction ethSendTransaction = new PlatonSendTransaction();
+		PlatoneSendTransaction ethSendTransaction = new PlatoneSendTransaction();
 		ethSendTransaction.setResult(TRANSACTION_HASH);
 
-		Request<?, PlatonSendTransaction> rawTransactionRequest = mock(Request.class);
+		Request<?, PlatoneSendTransaction> rawTransactionRequest = mock(Request.class);
 		when(rawTransactionRequest.send()).thenReturn(ethSendTransaction);
-		when(web3j.platonSendRawTransaction(any(String.class))).thenReturn((Request) rawTransactionRequest);
+		when(web3j.platoneSendRawTransaction(any(String.class))).thenReturn((Request) rawTransactionRequest);
 	}
 
 	@SuppressWarnings("unchecked")
 	void prepareTransactionReceipt(TransactionReceipt transactionReceipt) throws IOException {
-		PlatonGetTransactionReceipt ethGetTransactionReceipt = new PlatonGetTransactionReceipt();
+		PlatoneGetTransactionReceipt ethGetTransactionReceipt = new PlatoneGetTransactionReceipt();
 		ethGetTransactionReceipt.setResult(transactionReceipt);
 
-		Request<?, PlatonGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
+		Request<?, PlatoneGetTransactionReceipt> getTransactionReceiptRequest = mock(Request.class);
 		when(getTransactionReceiptRequest.send()).thenReturn(ethGetTransactionReceipt);
-		when(web3j.platonGetTransactionReceipt(TRANSACTION_HASH)).thenReturn((Request) getTransactionReceiptRequest);
+		when(web3j.platoneGetTransactionReceipt(TRANSACTION_HASH)).thenReturn((Request) getTransactionReceiptRequest);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,12 +88,12 @@ public abstract class ManagedTransactionTester {
 		transactionReceipt.setStatus("0x1");
 		prepareTransaction(transactionReceipt);
 
-		PlatonGasPrice ethGasPrice = new PlatonGasPrice();
+		PlatoneGasPrice ethGasPrice = new PlatoneGasPrice();
 		ethGasPrice.setResult("0x1");
 
-		Request<?, PlatonGasPrice> gasPriceRequest = mock(Request.class);
+		Request<?, PlatoneGasPrice> gasPriceRequest = mock(Request.class);
 		when(gasPriceRequest.send()).thenReturn(ethGasPrice);
-		when(web3j.platonGasPrice()).thenReturn((Request) gasPriceRequest);
+		when(web3j.platoneGasPrice()).thenReturn((Request) gasPriceRequest);
 
 		return transactionReceipt;
 	}

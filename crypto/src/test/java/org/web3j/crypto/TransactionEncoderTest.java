@@ -4,12 +4,13 @@ import java.math.BigInteger;
 import java.security.SignatureException;
 import java.util.List;
 
-import com.platon.sdk.utlis.NetworkParameters;
 import org.junit.Test;
 import org.web3j.crypto.Sign.SignatureData;
 import org.web3j.rlp.RlpString;
 import org.web3j.rlp.RlpType;
 import org.web3j.utils.Numeric;
+
+import com.platone.sdk.utlis.NetworkParameters;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;

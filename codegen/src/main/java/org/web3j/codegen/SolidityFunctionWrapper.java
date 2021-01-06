@@ -49,7 +49,7 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.PlatonFilter;
+import org.web3j.protocol.core.methods.request.PlatoneFilter;
 import org.web3j.protocol.core.methods.response.AbiDefinition;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -87,9 +87,9 @@ public class SolidityFunctionWrapper extends Generator {
     private static final String CODEGEN_WARNING = "<p>Auto generated code.\n"
             + "<p><strong>Do not modify!</strong>\n"
             + "<p>Please use the "
-            + "<a href=\"https://github.com/PlatONnetwork/client-sdk-java/releases\">platon-web3j command line tools</a>,\n"
+            + "<a href=\"https://github.com/PlatONEnetwork/client-sdk-java/releases\">platone-web3j command line tools</a>,\n"
             + "or the " + SolidityFunctionWrapperGenerator.class.getName() + " in the \n"
-            + "<a href=\"https://github.com/PlatONnetwork/client-sdk-java/tree/master/codegen\">"
+            + "<a href=\"https://github.com/PlatONEnetwork/client-sdk-java/tree/master/codegen\">"
             + "codegen module</a> to update.\n";
 
     private final boolean useNativeJavaTypes;
@@ -777,7 +777,7 @@ public class SolidityFunctionWrapper extends Generator {
         MethodSpec.Builder observableMethodBuilder =
                 MethodSpec.methodBuilder(generatedFunctionName)
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(PlatonFilter.class, FILTER)
+                        .addParameter(PlatoneFilter.class, FILTER)
                         .returns(parameterizedTypeName);
 
         TypeSpec converter = TypeSpec.anonymousClassBuilder("")
@@ -802,7 +802,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .build();
 
         observableMethodBuilder
-                .addStatement("return web3j.platonLogObservable(filter).map($L)", converter);
+                .addStatement("return web3j.platoneLogObservable(filter).map($L)", converter);
 
         return observableMethodBuilder
                 .build();
@@ -825,7 +825,7 @@ public class SolidityFunctionWrapper extends Generator {
                         .returns(parameterizedTypeName);
 
         observableMethodBuilder.addStatement("$1T filter = new $1T($2L, $3L, "
-                + "getContractAddress())", PlatonFilter.class, START_BLOCK, END_BLOCK)
+                + "getContractAddress())", PlatoneFilter.class, START_BLOCK, END_BLOCK)
                 .addStatement("filter.addSingleTopic($T.encode("
                         + buildEventDefinitionName(functionName) + "))", EventEncoder.class)
                 .addStatement("return " + generatedFunctionName + "(filter)");

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.PlatonGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.PlatoneGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 
@@ -25,8 +25,8 @@ public abstract class TransactionReceiptProcessor {
 
     Optional<TransactionReceipt> sendTransactionReceiptRequest(
             String transactionHash) throws IOException, TransactionException {
-        PlatonGetTransactionReceipt transactionReceipt =
-                web3j.platonGetTransactionReceipt(transactionHash).send();
+        PlatoneGetTransactionReceipt transactionReceipt =
+                web3j.platoneGetTransactionReceipt(transactionHash).send();
         if (transactionReceipt.hasError()) {
             throw new TransactionException("Error processing request: "
                     + transactionReceipt.getError().getMessage());

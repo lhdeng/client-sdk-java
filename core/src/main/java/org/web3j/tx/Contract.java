@@ -27,8 +27,8 @@ import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.PlatonCall;
-import org.web3j.protocol.core.methods.response.PlatonGetCode;
+import org.web3j.protocol.core.methods.response.PlatoneCall;
+import org.web3j.protocol.core.methods.response.PlatoneGetCode;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
@@ -110,7 +110,7 @@ public abstract class Contract extends ManagedTransaction {
 					"Contract binary not present, you will need to regenerate your smart " + "contract wrapper with web3j v2.2.0+");
 		}
 
-		PlatonGetCode ethGetCode = web3j.platonGetCode(contractAddress, DefaultBlockParameterName.LATEST).send();
+		PlatoneGetCode ethGetCode = web3j.platoneGetCode(contractAddress, DefaultBlockParameterName.LATEST).send();
 		if (ethGetCode.hasError()) {
 			return false;
 		}
@@ -151,8 +151,8 @@ public abstract class Contract extends ManagedTransaction {
 	 */
 	private List<Type> executeCall(Function function) throws IOException {
 		String encodedFunction = FunctionEncoder.encode(function);
-		PlatonCall ethCall = web3j
-				.platonCall(Transaction.createEthCallTransaction(transactionManager.getFromAddress(), contractAddress, encodedFunction),
+		PlatoneCall ethCall = web3j
+				.platoneCall(Transaction.createEthCallTransaction(transactionManager.getFromAddress(), contractAddress, encodedFunction),
 						defaultBlockParameter)
 				.send();
 

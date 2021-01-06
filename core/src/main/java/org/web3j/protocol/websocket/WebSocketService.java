@@ -29,8 +29,8 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
-import org.web3j.protocol.core.methods.response.PlatonSubscribe;
-import org.web3j.protocol.core.methods.response.PlatonUnsubscribe;
+import org.web3j.protocol.core.methods.response.PlatoneSubscribe;
+import org.web3j.protocol.core.methods.response.PlatoneUnsubscribe;
 import org.web3j.protocol.websocket.events.Notification;
 
 /**
@@ -201,8 +201,8 @@ public class WebSocketService implements Web3jService {
             Object reply = objectMapper.convertValue(replyJson, request.getResponseType());
             // Instead of sending a reply to a caller asynchronously we need to process it here
             // to avoid race conditions we need to modify state of this class.
-            if (reply instanceof PlatonSubscribe) {
-                processSubscriptionResponse(replyId, (PlatonSubscribe) reply);
+            if (reply instanceof PlatoneSubscribe) {
+                processSubscriptionResponse(replyId, (PlatoneSubscribe) reply);
             }
 
             sendReplyToListener(request, reply);
@@ -211,7 +211,7 @@ public class WebSocketService implements Web3jService {
         }
     }
 
-    private void processSubscriptionResponse(long replyId, PlatonSubscribe reply) throws IOException {
+    private void processSubscriptionResponse(long replyId, PlatoneSubscribe reply) throws IOException {
         WebSocketSubscription subscription = subscriptionRequestForId.get(replyId);
         processSubscriptionResponse(
                 reply,
@@ -221,7 +221,7 @@ public class WebSocketService implements Web3jService {
     }
 
     private <T extends Notification<?>> void processSubscriptionResponse(
-            PlatonSubscribe subscriptionReply,
+            PlatoneSubscribe subscriptionReply,
             BehaviorSubject<T> subject,
             Class<T> responseType) throws IOException {
         if (!subscriptionReply.hasError()) {
@@ -232,7 +232,7 @@ public class WebSocketService implements Web3jService {
     }
 
     private <T extends Notification<?>> void establishSubscription(
-            BehaviorSubject<T> subject, Class<T> responseType, PlatonSubscribe subscriptionReply) {
+            BehaviorSubject<T> subject, Class<T> responseType, PlatoneSubscribe subscriptionReply) {
         log.info("Subscribed to RPC events with id {}",
                 subscriptionReply.getSubscriptionId());
         subscriptionForId.put(
@@ -249,7 +249,7 @@ public class WebSocketService implements Web3jService {
     }
 
     private <T extends Notification<?>> void reportSubscriptionError(
-            BehaviorSubject<T> subject, PlatonSubscribe subscriptionReply) {
+            BehaviorSubject<T> subject, PlatoneSubscribe subscriptionReply) {
         Response.Error error = subscriptionReply.getError();
         log.error("Subscription request returned error: {}", error.getMessage());
         subject.onError(
@@ -377,7 +377,7 @@ public class WebSocketService implements Web3jService {
                 request.getId(),
                 new WebSocketSubscription<>(subject, responseType));
         try {
-            send(request, PlatonSubscribe.class);
+            send(request, PlatoneSubscribe.class);
         } catch (IOException e) {
             log.error("Failed to subscribe to RPC events with request id {}",
                     request.getId());
@@ -398,7 +398,7 @@ public class WebSocketService implements Web3jService {
     }
 
     private void unsubscribeFromEventsStream(String subscriptionId, String unsubscribeMethod) {
-        sendAsync(unsubscribeRequest(subscriptionId, unsubscribeMethod), PlatonUnsubscribe.class)
+        sendAsync(unsubscribeRequest(subscriptionId, unsubscribeMethod), PlatoneUnsubscribe.class)
                 .thenAccept(ethUnsubscribe -> {
                     log.debug("Successfully unsubscribed from subscription with id {}",
                             subscriptionId);
@@ -409,13 +409,13 @@ public class WebSocketService implements Web3jService {
                 });
     }
 
-    private Request<String, PlatonUnsubscribe> unsubscribeRequest(
+    private Request<String, PlatoneUnsubscribe> unsubscribeRequest(
             String subscriptionId, String unsubscribeMethod) {
         return new Request<>(
                         unsubscribeMethod,
                         Collections.singletonList(subscriptionId),
                         this,
-                        PlatonUnsubscribe.class);
+                        PlatoneUnsubscribe.class);
     }
 
     @Override

@@ -1,8 +1,9 @@
 package org.web3j.crypto;
 
-import com.platon.sdk.utlis.Bech32;
-import com.platon.sdk.utlis.NetworkParameters;
 import org.web3j.utils.Numeric;
+
+import com.platone.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.NetworkParameters;
 
 import java.math.BigInteger;
 import java.security.SignatureException;

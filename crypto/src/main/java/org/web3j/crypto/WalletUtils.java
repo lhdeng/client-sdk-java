@@ -3,7 +3,8 @@ package org.web3j.crypto;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.platon.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.Bech32;
+
 import org.bouncycastle.util.encoders.Hex;
 import org.web3j.utils.Numeric;
 
@@ -268,7 +269,7 @@ public class WalletUtils {
 	}
 
 	/**
-	 * create a platON standard wallet using Secp256k1 algorithm. 
+	 * create a platONE standard wallet using Secp256k1 algorithm. 
 	 *
 	 * @param password the wallet password
 	 * @param destinationDirectory The directory containing the wallet
@@ -280,16 +281,16 @@ public class WalletUtils {
 	 * @throws CipherException
 	 * @throws IOException
 	 */
-	public static String generatePlatONWalletFile(String password, File destinationDirectory)
+	public static String generatePlatONEWalletFile(String password, File destinationDirectory)
 			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
 			CipherException, IOException {
 
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-		return generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+		return generatePlatONEWalletFile(password, ecKeyPair, destinationDirectory);
 	}
 
 	/**
-	 * create a platON standard wallet using sm2 algorithm. 
+	 * create a platONE standard wallet using sm2 algorithm. 
 	 * 
 	 * @param password the wallet password
 	 * @param destinationDirectory The directory containing the wallet
@@ -301,24 +302,24 @@ public class WalletUtils {
 	 * @throws CipherException
 	 * @throws IOException
 	 */
-	public static String generateSm2PlatONWalletFile(String password, File destinationDirectory)
+	public static String generateSm2PlatONEWalletFile(String password, File destinationDirectory)
 			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
 			CipherException, IOException {
 
 		ECKeyPair ecKeyPair = Keys.createSm2EcKeyPair();
-		return generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+		return generatePlatONEWalletFile(password, ecKeyPair, destinationDirectory);
 	}
 
 	/**
-	 * create a platON standard Bip39 wallet using Secp256k1 algorithm. 
+	 * create a platONE standard Bip39 wallet using Secp256k1 algorithm. 
 	 *
 	 * @param password the wallet password
 	 * @param destinationDirectory The directory containing the wallet
-	 * @return  A BIP-39 compatible PlatON wallet
+	 * @return  A BIP-39 compatible PlatONE wallet
 	 * @throws CipherException
 	 * @throws IOException
 	 */
-	public static Bip39Wallet generatePlatONBip39Wallet(String password, File destinationDirectory)
+	public static Bip39Wallet generatePlatONEBip39Wallet(String password, File destinationDirectory)
 			throws CipherException, IOException {
 		byte[] initialEntropy = new byte[16];
 		secureRandom.nextBytes(initialEntropy);
@@ -327,21 +328,21 @@ public class WalletUtils {
 		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
 		ECKeyPair ecKeyPair = ECKeyPair.create(sha256(seed));
 
-		String fileName = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+		String fileName = generatePlatONEWalletFile(password, ecKeyPair, destinationDirectory);
 
 		return new Bip39Wallet(fileName, mnemonic);
 	}
 
 	/**
-	 * create a platON standard Bip39 wallet using sm2 algorithm. 
+	 * create a platONE standard Bip39 wallet using sm2 algorithm. 
 	 *
 	 * @param password the wallet password
 	 * @param destinationDirectory The directory containing the wallet
-	 * @return  A BIP-39 compatible PlatON wallet
+	 * @return  A BIP-39 compatible PlatONE wallet
 	 * @throws CipherException
 	 * @throws IOException
 	 */
-	public static Bip39Wallet generateSm2PlatONBip39Wallet(String password, File destinationDirectory)
+	public static Bip39Wallet generateSm2PlatONEBip39Wallet(String password, File destinationDirectory)
 			throws CipherException, IOException {
 		byte[] initialEntropy = new byte[16];
 		secureRandom.nextBytes(initialEntropy);
@@ -350,13 +351,13 @@ public class WalletUtils {
 		byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
 		ECKeyPair ecKeyPair = ECKeyPair.createSm2(sha256(seed));
 
-		String fileName = generatePlatONWalletFile(password, ecKeyPair, destinationDirectory);
+		String fileName = generatePlatONEWalletFile(password, ecKeyPair, destinationDirectory);
 
 		return new Bip39Wallet(fileName, mnemonic);
 	}
 
 	/**
-	 * Create platON standard wallet with ecKeyPair
+	 * Create platONE standard wallet with ecKeyPair
 	 *
 	 * @param password
 	 * @param ecKeyPair
@@ -365,10 +366,10 @@ public class WalletUtils {
 	 * @throws CipherException
 	 * @throws IOException
 	 */
-	public static String generatePlatONWalletFile(String password, ECKeyPair ecKeyPair, File destinationDirectory)
+	public static String generatePlatONEWalletFile(String password, ECKeyPair ecKeyPair, File destinationDirectory)
 			throws CipherException, IOException {
 
-		WalletFile walletFile = Wallet.createPlatON(password, ecKeyPair);
+		WalletFile walletFile = Wallet.createPlatONE(password, ecKeyPair);
 
 		String fileName = getWalletFileName(walletFile, ecKeyPair.getAlgorithm());
 		File destination = new File(destinationDirectory, fileName);

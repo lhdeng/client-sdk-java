@@ -4,7 +4,7 @@ import java.lang.reflect.ParameterizedType;
 
 import org.web3j.utils.Numeric;
 
-import com.platon.rlp.RLPCodec;
+import com.platone.rlp.RLPCodec;
 
 public class WasmReturnDecoder {
 	public static <T> T decode(String input, Class<T> clazz) {

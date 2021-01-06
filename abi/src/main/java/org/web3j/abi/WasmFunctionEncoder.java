@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.web3j.abi.datatypes.WasmFunction;
 import org.web3j.utils.Numeric;
-import com.platon.rlp.RLPCodec;
-import com.platon.rlp.datatypes.Uint64;
+
+import com.platone.rlp.RLPCodec;
+import com.platone.rlp.datatypes.Uint64;
 
 public class WasmFunctionEncoder {
 	public static byte[] MAGIC_NUM = new byte[] { 0x00, 0x61, 0x73, 0x6d };

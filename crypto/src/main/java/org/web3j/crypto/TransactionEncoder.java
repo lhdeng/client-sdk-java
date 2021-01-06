@@ -5,13 +5,14 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.platon.sdk.utlis.Bech32;
 import org.web3j.rlp.RlpEncoder;
 import org.web3j.rlp.RlpList;
 import org.web3j.rlp.RlpString;
 import org.web3j.rlp.RlpType;
 import org.web3j.utils.Bytes;
 import org.web3j.utils.Numeric;
+
+import com.platone.sdk.utlis.Bech32;
 
 import static org.web3j.utils.Numeric.hexStringToByteArray;
 

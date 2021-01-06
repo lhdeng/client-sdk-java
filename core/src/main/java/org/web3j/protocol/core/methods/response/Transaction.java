@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import org.web3j.utils.Numeric;
 
 /**
- * Transaction object used by both {@link PlatonTransaction} and {@link PlatonBlock}.
+ * Transaction object used by both {@link PlatoneTransaction} and {@link PlatoneBlock}.
  */
 public class Transaction {
     private static final int CHAIN_ID_INC = 35;

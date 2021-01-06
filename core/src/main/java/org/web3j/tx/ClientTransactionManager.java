@@ -5,7 +5,7 @@ import java.math.BigInteger;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
 import org.web3j.tx.response.TransactionReceiptProcessor;
 
 /**
@@ -37,7 +37,7 @@ public class ClientTransactionManager extends TransactionManager {
     }
 
     @Override
-    public PlatonSendTransaction sendTransaction(
+    public PlatoneSendTransaction sendTransaction(
             BigInteger gasPrice, BigInteger gasLimit, String to,
             String data, BigInteger value)
             throws IOException {
@@ -45,7 +45,7 @@ public class ClientTransactionManager extends TransactionManager {
         Transaction transaction = new Transaction(
                 getFromAddress(), null, gasPrice, gasLimit, to, value, data);
 
-        return web3j.platonSendTransaction(transaction)
+        return web3j.platoneSendTransaction(transaction)
                 .send();
     }
 }

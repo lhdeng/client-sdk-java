@@ -20,9 +20,9 @@ import org.web3j.tx.gas.GasProvider;
 /**
  * <p>Auto generated code.
  * <p><strong>Do not modify!</strong>
- * <p>Please use the <a href="https://github.com/PlatONnetwork/client-sdk-java/releases">platon-web3j command line tools</a>,
+ * <p>Please use the <a href="https://github.com/PlatONEnetwork/client-sdk-java/releases">platone-web3j command line tools</a>,
  * or the org.web3j.codegen.SolidityFunctionWrapperGenerator in the 
- * <a href="https://github.com/PlatONnetwork/client-sdk-java/tree/master/codegen">codegen module</a> to update.
+ * <a href="https://github.com/PlatONEnetwork/client-sdk-java/tree/master/codegen">codegen module</a> to update.
  *
  * <p>Generated with web3j version none.
  */

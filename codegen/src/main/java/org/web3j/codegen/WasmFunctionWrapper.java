@@ -26,7 +26,7 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.PlatonFilter;
+import org.web3j.protocol.core.methods.request.PlatoneFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.WasmAbiDefinition;
@@ -39,8 +39,8 @@ import org.web3j.utils.Strings;
 import org.web3j.utils.Version;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.platon.rlp.datatypes.Pair;
-import com.platon.rlp.datatypes.WasmAddress;
+import com.platone.rlp.datatypes.Pair;
+import com.platone.rlp.datatypes.WasmAddress;
 import com.squareup.javapoet.ArrayTypeName;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -75,9 +75,9 @@ public class WasmFunctionWrapper extends Generator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WasmFunctionWrapper.class);
 
 	private static final String CODEGEN_WARNING = "<p>Auto generated code.\n" + "<p><strong>Do not modify!</strong>\n" + "<p>Please use the "
-			+ "<a href=\"https://github.com/PlatONnetwork/client-sdk-java/releases\">platon-web3j command line tools</a>,\n" + "or the "
+			+ "<a href=\"https://github.com/PlatONEnetwork/client-sdk-java/releases\">platone-web3j command line tools</a>,\n" + "or the "
 			+ WasmFunctionWrapperGenerator.class.getName() + " in the \n"
-			+ "<a href=\"https://github.com/PlatONnetwork/client-sdk-java/tree/master/codegen\">" + "codegen module</a> to update.\n";
+			+ "<a href=\"https://github.com/PlatONEnetwork/client-sdk-java/tree/master/codegen\">" + "codegen module</a> to update.\n";
 
 	private static final String regex = "(\\w+)(?:\\[(.*?)\\])(?:\\[(.*?)\\])?";
 	private static final String regex_map = "(map)(?:\\<(.*?)),(?:(.*?)\\>$)";
@@ -140,7 +140,7 @@ public class WasmFunctionWrapper extends Generator {
 		} catch (IOException | NullPointerException e) {
 			version = Version.DEFAULT;
 		}
-		return "\n<p>Generated with platon-web3j version " + version + ".\n";
+		return "\n<p>Generated with platone-web3j version " + version + ".\n";
 	}
 
 	private List<FieldSpec> createBinaryDefinition(String binary) {
@@ -619,7 +619,7 @@ public class WasmFunctionWrapper extends Generator {
 				ClassName.get("", responseClassName));
 
 		MethodSpec.Builder observableMethodBuilder = MethodSpec.methodBuilder(generatedFunctionName).addModifiers(Modifier.PUBLIC)
-				.addParameter(PlatonFilter.class, FILTER).returns(parameterizedTypeName);
+				.addParameter(PlatoneFilter.class, FILTER).returns(parameterizedTypeName);
 
 		TypeSpec converter = TypeSpec.anonymousClassBuilder("")
 				.addSuperinterface(
@@ -633,7 +633,7 @@ public class WasmFunctionWrapper extends Generator {
 						.addStatement("return typedResponse").build())
 				.build();
 
-		observableMethodBuilder.addStatement("return web3j.platonLogObservable(filter).map($L)", converter);
+		observableMethodBuilder.addStatement("return web3j.platoneLogObservable(filter).map($L)", converter);
 
 		return observableMethodBuilder.build();
 	}
@@ -648,7 +648,7 @@ public class WasmFunctionWrapper extends Generator {
 				.addParameter(DefaultBlockParameter.class, START_BLOCK).addParameter(DefaultBlockParameter.class, END_BLOCK)
 				.returns(parameterizedTypeName);
 
-		observableMethodBuilder.addStatement("$1T filter = new $1T($2L, $3L, " + "getContractAddress())", PlatonFilter.class, START_BLOCK, END_BLOCK)
+		observableMethodBuilder.addStatement("$1T filter = new $1T($2L, $3L, " + "getContractAddress())", PlatoneFilter.class, START_BLOCK, END_BLOCK)
 				.addStatement("filter.addSingleTopic($T.encode(" + buildEventDefinitionName(functionName) + "))", WasmEventEncoder.class)
 				.addStatement("return " + generatedFunctionName + "(filter)");
 
@@ -658,7 +658,7 @@ public class WasmFunctionWrapper extends Generator {
 	public static String getParameterizedType(ParameterizedTypeName parameterizedTypeName) {
 		String rawType = parameterizedTypeName.rawType.toString();
 		String argsType = getArgsType(parameterizedTypeName);
-		return "\nnew com.platon.rlp.ParameterizedTypeImpl(\nnew java.lang.reflect.Type[] {" + argsType + "}, \n" + rawType + ".class" + ", \n"
+		return "\nnew com.platone.rlp.ParameterizedTypeImpl(\nnew java.lang.reflect.Type[] {" + argsType + "}, \n" + rawType + ".class" + ", \n"
 				+ rawType + ".class)";
 	}
 

@@ -2,10 +2,11 @@ package org.web3j.abi.datatypes;
 
 import java.math.BigInteger;
 
-import com.platon.sdk.utlis.Bech32;
-import com.platon.sdk.utlis.NetworkParameters;
 import org.web3j.abi.datatypes.generated.Uint160;
 import org.web3j.utils.Numeric;
+
+import com.platone.sdk.utlis.Bech32;
+import com.platone.sdk.utlis.NetworkParameters;
 
 /**
  * Address type, which is equivalent to uint160.

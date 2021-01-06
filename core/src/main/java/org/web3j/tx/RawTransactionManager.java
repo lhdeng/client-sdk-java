@@ -10,14 +10,14 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.PlatonGetTransactionCount;
-import org.web3j.protocol.core.methods.response.PlatonSendTransaction;
+import org.web3j.protocol.core.methods.response.PlatoneGetTransactionCount;
+import org.web3j.protocol.core.methods.response.PlatoneSendTransaction;
 import org.web3j.tx.exceptions.TxHashMismatchException;
 import org.web3j.tx.response.TransactionReceiptProcessor;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.TxHashVerifier;
 
-import com.platon.sm.SM3Utils;
+import com.platone.sm.SM3Utils;
 
 /**
  * TransactionManager implementation using Ethereum wallet file to create and sign transactions
@@ -63,11 +63,11 @@ public class RawTransactionManager extends TransactionManager {
     }
 
     protected BigInteger getNonce() throws IOException {
-        PlatonGetTransactionCount ethGetTransactionCount = web3j.platonGetTransactionCount(
+        PlatoneGetTransactionCount ethGetTransactionCount = web3j.platoneGetTransactionCount(
                 credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
 
         if (ethGetTransactionCount.getTransactionCount().intValue() == 0) {
-            ethGetTransactionCount = web3j.platonGetTransactionCount(
+            ethGetTransactionCount = web3j.platoneGetTransactionCount(
                     credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
         }
 
@@ -83,7 +83,7 @@ public class RawTransactionManager extends TransactionManager {
     }
 
     @Override
-    public PlatonSendTransaction sendTransaction(
+    public PlatoneSendTransaction sendTransaction(
             BigInteger gasPrice, BigInteger gasLimit, String to,
             String data, BigInteger value) throws IOException {
 
@@ -100,7 +100,7 @@ public class RawTransactionManager extends TransactionManager {
         return signAndSend(rawTransaction);
     }
 
-    public PlatonSendTransaction signAndSend(RawTransaction rawTransaction)
+    public PlatoneSendTransaction signAndSend(RawTransaction rawTransaction)
             throws IOException {
 
         byte[] signedMessage;
@@ -112,7 +112,7 @@ public class RawTransactionManager extends TransactionManager {
         }
 
         String hexValue = Numeric.toHexString(signedMessage);
-        PlatonSendTransaction ethSendTransaction = web3j.platonSendRawTransaction(hexValue).send();
+        PlatoneSendTransaction ethSendTransaction = web3j.platoneSendRawTransaction(hexValue).send();
 
         if (ethSendTransaction != null && !ethSendTransaction.hasError()) {
         	

@@ -12,8 +12,8 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.web3j.utils.Numeric;
 
-import com.platon.sm.SM2Utils;
-import com.platon.sm.SM2Utils.Sm2KeyPair;
+import com.platone.sm.SM2Utils;
+import com.platone.sm.SM2Utils.Sm2KeyPair;
 
 /**
  * Elliptic Curve SECP-256k1 generated key pair.

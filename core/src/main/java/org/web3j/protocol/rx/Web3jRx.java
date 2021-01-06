@@ -5,8 +5,8 @@ import java.util.List;
 import rx.Observable;
 
 import org.web3j.protocol.core.DefaultBlockParameter;
-import org.web3j.protocol.core.methods.request.PlatonFilter;
-import org.web3j.protocol.core.methods.response.PlatonBlock;
+import org.web3j.protocol.core.methods.request.PlatoneFilter;
+import org.web3j.protocol.core.methods.response.PlatoneBlock;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.protocol.websocket.events.LogNotification;
@@ -23,7 +23,7 @@ public interface Web3jRx {
      * @param ethFilter filter criteria
      * @return Observable that emits all Log events matching the filter
      */
-    Observable<Log> platonLogObservable(PlatonFilter ethFilter);
+    Observable<Log> platoneLogObservable(PlatoneFilter ethFilter);
 
     /**
      * Create an Observable to emit block hashes.
@@ -31,7 +31,7 @@ public interface Web3jRx {
      * @return Observable that emits all new block hashes as new blocks are created on the
      *         blockchain
      */
-    Observable<String> platonBlockHashObservable();
+    Observable<String> platoneBlockHashObservable();
 
     /**
      * Create an Observable to emit pending transactions, i.e. those transactions that have been
@@ -39,7 +39,7 @@ public interface Web3jRx {
      *
      * @return Observable to emit pending transaction hashes.
      */
-    Observable<String> platonPendingTransactionHashObservable();
+    Observable<String> platonePendingTransactionHashObservable();
 
     /**
      * Create an Observable to emit all new transactions as they are confirmed on the blockchain.
@@ -64,7 +64,7 @@ public interface Web3jRx {
      *                              transaction hashes
      * @return Observable that emits all new blocks as they are added to the blockchain
      */
-    Observable<PlatonBlock> blockObservable(boolean fullTransactionObjects);
+    Observable<PlatoneBlock> blockObservable(boolean fullTransactionObjects);
 
     /**
      * Create an Observable that emits all blocks from the blockchain contained within the
@@ -76,7 +76,7 @@ public interface Web3jRx {
      *                               transaction hashes
      * @return Observable to emit these blocks
      */
-    Observable<PlatonBlock> replayBlocksObservable(
+    Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects);
 
@@ -92,7 +92,7 @@ public interface Web3jRx {
      *                  in descending order
      * @return Observable to emit these blocks
      */
-    Observable<PlatonBlock> replayBlocksObservable(
+    Observable<PlatoneBlock> replayBlocksObservable(
             DefaultBlockParameter startBlock, DefaultBlockParameter endBlock,
             boolean fullTransactionObjects, boolean ascending);
 
@@ -117,14 +117,14 @@ public interface Web3jRx {
      *
      * @param startBlock the block number we wish to request from
      * @param fullTransactionObjects if we require full {@link Transaction} objects to be provided
-     *                              in the {@link PlatonBlock} responses
+     *                              in the {@link PlatoneBlock} responses
      * @param onCompleteObservable a subsequent Observable that we wish to run once we are caught
      *                             up with the latest block
      * @return Observable to emit all requested blocks
      */
-    Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects,
-            Observable<PlatonBlock> onCompleteObservable);
+            Observable<PlatoneBlock> onCompleteObservable);
 
     /**
      * Creates an Observable that emits all blocks from the requested block number to the most
@@ -132,10 +132,10 @@ public interface Web3jRx {
      *
      * @param startBlock the block number we wish to request from
      * @param fullTransactionObjects if we require full {@link Transaction} objects to be provided
-     *                               in the {@link PlatonBlock} responses
+     *                               in the {@link PlatoneBlock} responses
      * @return Observable to emit all requested blocks
      */
-    Observable<PlatonBlock> catchUpToLatestBlockObservable(
+    Observable<PlatoneBlock> catchUpToLatestBlockObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects);
 
     /**
@@ -155,10 +155,10 @@ public interface Web3jRx {
      *
      * @param startBlock the block number we wish to request from
      * @param fullTransactionObjects if we require full {@link Transaction} objects to be provided
-     *                               in the {@link PlatonBlock} responses
+     *                               in the {@link PlatoneBlock} responses
      * @return Observable to emit all requested blocks and future
      */
-    Observable<PlatonBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
+    Observable<PlatoneBlock> catchUpToLatestAndSubscribeToNewBlocksObservable(
             DefaultBlockParameter startBlock, boolean fullTransactionObjects);
 
     /**

@@ -11,7 +11,7 @@ import org.web3j.rlp.RlpString;
 import org.web3j.rlp.RlpType;
 import org.web3j.utils.Numeric;
 
-import com.platon.sm.SM3Utils;
+import com.platone.sm.SM3Utils;
 
 /**
  * Smart Contract utility functions.

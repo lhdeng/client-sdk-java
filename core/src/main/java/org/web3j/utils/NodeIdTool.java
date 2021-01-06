@@ -4,7 +4,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.web3j.crypto.ECDSASignature;
 import org.web3j.crypto.Hash;
 import org.web3j.crypto.Sign;
-import org.web3j.protocol.core.methods.response.PlatonBlock;
+import org.web3j.protocol.core.methods.response.PlatoneBlock;
 import org.web3j.rlp.RlpEncoder;
 import org.web3j.rlp.RlpList;
 import org.web3j.rlp.RlpString;
@@ -30,7 +30,7 @@ public class NodeIdTool {
      * @param block
      * @return
      */
-    public static String getPublicKey(PlatonBlock.Block block){
+    public static String getPublicKey(PlatoneBlock.Block block){
         String publicKey = testBlock(block).toString(16);
         // 不足128前面补0
         int lack = 128 - publicKey.length();
@@ -41,7 +41,7 @@ public class NodeIdTool {
         return prefix.toString();
     }
 
-    public static BigInteger testBlock(PlatonBlock.Block block){
+    public static BigInteger testBlock(PlatoneBlock.Block block){
         String extraData = block.getExtraData();
         String signature = extraData.substring(66, extraData.length());
         byte[] msgHash = getMsgHash(block);
@@ -52,18 +52,18 @@ public class NodeIdTool {
         return Sign.recoverFromSignature( v, new ECDSASignature(new BigInteger(1, r), new BigInteger(1, s)), msgHash);
     }
 
-    private static byte[] getMsgHash(PlatonBlock.Block block) {
+    private static byte[] getMsgHash(PlatoneBlock.Block block) {
         byte[] signData = encode(block);
         return Hash.sha3(signData);
     }
 
-    private static byte[] encode(PlatonBlock.Block block) {
+    private static byte[] encode(PlatoneBlock.Block block) {
         List<RlpType> values = asRlpValues(block);
         RlpList rlpList = new RlpList(values);
         return RlpEncoder.encode(rlpList);
     }
 
-    static List<RlpType> asRlpValues(PlatonBlock.Block block) {
+    static List<RlpType> asRlpValues(PlatoneBlock.Block block) {
         List<RlpType> result = new ArrayList<>();
         //ParentHash  common.Hash    `json:"parentHash"       gencodec:"required"`
         result.add(RlpString.create(decodeHash(block.getParentHash())));
